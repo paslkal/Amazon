@@ -1,3 +1,5 @@
+import { cart } from "../data/cart.js";
+
 document.addEventListener('DOMContentLoaded', (_) => {
   let productsHTML = '';
 
@@ -74,10 +76,8 @@ document.addEventListener('DOMContentLoaded', (_) => {
       }
 
       const timeoutId = setTimeout(() => {
-        setTimeout(() => {
-          addedMessage.classList.remove('added-to-cart-visible')
-        }, 2000)
-      })
+        addedMessage.classList.remove('added-to-cart-visible')        
+      }, 2000)
 
       addedMessageTimeouts[productId] = timeoutId
 
