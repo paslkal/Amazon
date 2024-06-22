@@ -138,6 +138,7 @@ export function renderOrderSummary() {
         );
         container.remove();
         updateCheckoutHeader();
+        renderPaymentSummary()
       });
     });
 
@@ -165,10 +166,14 @@ export function renderOrderSummary() {
         container.classList.remove('is-editing-quantity');
       };
 
-      link.addEventListener('click', updateQuantity);
+      link.addEventListener('click', () => {
+        updateQuantity()
+        renderPaymentSummary()
+      });
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
           updateQuantity();
+          renderPaymentSummary()
         }
       });
     });
