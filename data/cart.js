@@ -8,6 +8,20 @@ export let cart = JSON.parse(localStorage.getItem('cart')) || [{
   deliveryOptionId: '2'
 }]
 
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  let matchingItem
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem
+    }
+  })
+
+  matchingItem.deliveryOptionId = deliveryOptionId
+
+  saveToStorage()
+}
+
 export function updateCartQuantity(productId, newQuantity) {
   cart.forEach((cartItem) => {
     if (cartItem.productId === productId) {
