@@ -138,7 +138,6 @@ export function renderOrderSummary() {
       });
     });
 
-  // TODO: 0<input<=1000 && typeof Number - работает, 0 - удаляется, <0 - или not number -вылезает ошибка (14n, пункт 1)
   document.querySelectorAll('.js-save-quantity-link')
     .forEach((link) => {
       const { productId } = link.dataset;
@@ -147,6 +146,10 @@ export function renderOrderSummary() {
 
       const updateQuantity = () => {
         const newQuantity = Number(input.value);
+        if (newQuantity<=0 || newQuantity >= 1000) {
+          alert('Quantity must be at least 1 and less than 1000')
+          return
+        }
         updateCartQuantity(productId, newQuantity);
         input.value = '';
         renderCheckoutHeader();
