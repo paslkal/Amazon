@@ -1,4 +1,4 @@
-import {cart, loadFromStorage, addToCart, removeFromCart } from "../../data/cart.js";
+import {cart, loadFromStorage, addToCart, removeFromCart, updateDeliveryOption } from "../../data/cart.js";
 
 describe('test suite: addToCart', () => {
   beforeEach(() => {
@@ -85,3 +85,54 @@ describe('test suite: removeFromCart', () => {
     expect(cart[0].deliveryOptionId).toEqual('1')
   })
 })
+
+describe('test suite: updateDeliveryOption', () => {
+  const productId = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6" 
+  beforeEach(() => {
+    spyOn(localStorage, 'setItem')
+    spyOn(localStorage, 'getItem').and.callFake(() => {
+      return JSON.stringify([{
+        productId,
+        quantity: 1,
+        deliveryOptionId: '1'
+      }])
+    })
+    
+    loadFromStorage()
+  })
+  it('update delivery option when productId is in the cart', () => {
+    updateDeliveryOption(productId, '3')
+
+    expect(cart[0].deliveryOptionId).toEqual('3')
+    expect(cart.length).toEqual(1)
+    expect(cart[0].productId).toEqual(productId)
+    expect(cart[0].quantity).toEqual(1)
+    expect(localStorage.setItem).toHaveBeenCalledTimes(1)
+    expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([{
+      productId,
+      quantity: 1,  
+      deliveryOptionId: '3'
+    }]))
+  })
+  
+  it('do not update delivery option when productId is not in the cart', () => {
+    updateDeliveryOption('abc', '3')
+
+    expect(cart[0].deliveryOptionId).toEqual('1')
+    expect(cart.length).toEqual(1)
+    expect(cart[0].productId).toEqual(productId)
+    expect(cart[0].quantity).toEqual(1)
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0)
+  })
+
+  it('do not update delivery option when deliveryOptionId that does not exist', () => {
+    updateDeliveryOption(productId, 'abc')
+
+    expect(cart[0].deliveryOptionId).toEqual('1')
+    expect(cart.length).toEqual(1)
+    expect(cart[0].productId).toEqual(productId)
+    expect(cart[0].quantity).toEqual(1)
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0)
+  })
+  
+})    

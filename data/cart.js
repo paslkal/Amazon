@@ -1,3 +1,4 @@
+import { getDeliveryOption } from "./deliveryOptions.js"
 export let cart 
 
 loadFromStorage()
@@ -22,6 +23,11 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
       matchingItem = cartItem
     }
   })
+
+
+  if (!matchingItem || !getDeliveryOption(deliveryOptionId)) {
+    return
+  }
 
   matchingItem.deliveryOptionId = deliveryOptionId
 
