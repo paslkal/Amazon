@@ -1,10 +1,9 @@
-import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
+import { cart } from "../data/cart-class.js";
 import { products } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
 
 function updateCartQuantity() {
   document.querySelector('.js-cart-quantity')
-    .innerHTML = calculateCartQuantity()
+    .innerHTML = cart.calculateCartQuantity()
 }
 
 updateCartQuantity()
@@ -98,7 +97,7 @@ document.addEventListener('DOMContentLoaded', (_) => {
 
       addMessage({addedMessage, productId, addedMessageTimeouts})
 
-      addToCart(productId, quantity)
+      cart.addToCart(productId, quantity)
 
       updateCartQuantity()
     })

@@ -1,4 +1,4 @@
-import { cart, removeFromCart, updateCartQuantity, updateDeliveryOption } from "../../data/cart.js";
+import { cart } from "../../data/cart-class.js";
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from "../../data/deliveryOptions.js";
 import { getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
@@ -49,7 +49,7 @@ export function renderOrderSummary() {
 
   renderCheckoutHeader();
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     const { productId } = cartItem;
 
     const matchingProduct = getProduct(productId)
@@ -129,7 +129,7 @@ export function renderOrderSummary() {
     .forEach((link) => {
       link.addEventListener('click', () => {
         const { productId } = link.dataset;
-        removeFromCart(productId);
+        cart.removeFromCart(productId);
         
         renderCheckoutHeader();
         renderOrderSummary()
@@ -158,7 +158,7 @@ export function renderOrderSummary() {
           alert('Quantity must be at least 1 and less than 1000')
           return
         }
-        updateCartQuantity(productId, newQuantity);
+        cart.updateCartQuantity(productId, newQuantity);
         input.value = '';
         renderCheckoutHeader();
         renderOrderSummary()
@@ -178,7 +178,7 @@ export function renderOrderSummary() {
     .forEach((element) => {
       element.addEventListener('click', () => {
         const { productId, deliveryOptionId } = element.dataset;
-        updateDeliveryOption(productId, deliveryOptionId);
+        cart.updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
         renderPaymentSummary()
       });
