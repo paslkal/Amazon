@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>18</title>
 </head>
 <body>
   <script>
@@ -18,11 +18,38 @@
     // xhr.send()
 
 
-    fetch('https://supersimplebackend.dev/greeting').then((value) => {
-      return value.text()
-    }).then((value) => {
-      console.log(value)
-    })
+    // fetch('https://supersimplebackend.dev/greeting').then((value) => {
+    //   return value.text()
+    // }).then((value) => {
+    //   console.log(value)
+    // })
+
+    async function getGreeting() {
+      const response = await fetch('https://supersimplebackend.dev/greeting')
+      const greeting = await response.text()
+      console.log(greeting)
+    }
+
+    getGreeting()
+
+    async function hiPaslkal() {
+      const response = await fetch('https://supersimplebackend.dev/greeting', {
+        method: "POST",
+        body: JSON.stringify({
+          name: 'Paslkal'
+        }),
+        headers: {
+           "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+
+      const message = await response.text()
+      console.log(message)
+    }
+
+    hiPaslkal()
+
+    fetch('https://amazon.com/')
   </script>
 </body>
 </html>
