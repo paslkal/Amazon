@@ -1,5 +1,5 @@
 import { cart } from "../data/cart-class.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 
 function updateCartQuantity() {
   document.querySelector('.js-cart-quantity')
@@ -23,7 +23,9 @@ function addMessage({addedMessage, productId, addedMessageTimeouts}) {
   addedMessageTimeouts[productId] = timeoutId
 }
 
-document.addEventListener('DOMContentLoaded', (_) => {
+loadProducts(renderProductsGrid)
+
+function renderProductsGrid() {
   let productsHTML = '';
 
   products.forEach((product) => {
@@ -102,7 +104,7 @@ document.addEventListener('DOMContentLoaded', (_) => {
       updateCartQuantity()
     })
   })
-});
+}
 
 
 
