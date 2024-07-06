@@ -6,6 +6,23 @@
   <title>Document</title>
 </head>
 <body>
-  <script src="backend-practice.js"></script>
+  <script>
+    // const xhr = new XMLHttpRequest()
+
+    // xhr.addEventListener('load', () => {
+    //   console.log(xhr.response)
+    // })
+
+    // xhr.open('GET', 'https://supersimplebackend.dev/greeting')
+
+    // xhr.send()
+
+
+    fetch('https://supersimplebackend.dev/greeting').then((value) => {
+      return value.text()
+    }).then((value) => {
+      console.log(value)
+    })
+  </script>
 </body>
 </html>
