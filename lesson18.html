@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>18</title>
+  <title>Lesson 18</title>
 </head>
 <body>
   <script>
@@ -48,6 +48,36 @@
     }
 
     postGreeting()
+
+    async function postErrorGreeting() {
+      try {
+        const response = await fetch('https://supersimplebackend.dev/greeting', {
+          method: "POST",
+          // body: JSON.stringify({
+          //   name: 'Paslkal'
+          // }),
+          headers: {
+              "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+
+        if (response.status >=400) {
+          throw response
+        } 
+
+        const message = await response.text()
+        console.log(message)
+      } catch (error) {
+        if (error.status === 400) {
+          const errorMessage = await error.json()
+          console.log(errorMessage)
+        } else {
+          console.log('Network error. Please try again later')
+        }
+      }
+    }
+    
+    postErrorGreeting()
 
     async function getAmazon() {
       try {
