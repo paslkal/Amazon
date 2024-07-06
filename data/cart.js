@@ -93,6 +93,10 @@ export function removeFromCart(productId) {
   saveToStorage()
 }
 
+async function loadCartFetch() {
+  
+}
+
 export function loadCart(fun) {
   const xhr = new XMLHttpRequest()
   xhr.addEventListener('load', () => {
