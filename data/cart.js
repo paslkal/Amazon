@@ -93,8 +93,11 @@ export function removeFromCart(productId) {
   saveToStorage()
 }
 
-async function loadCartFetch() {
-  
+export async function loadCartFetch() {
+  const response = await fetch('https://supersimplebackend.dev/cart')
+  const message = await response.text()
+  console.log(message)
+  return message
 }
 
 export function loadCart(fun) {
