@@ -4,7 +4,11 @@
     <title>Tracking</title>
 
     <script type="module" src="scripts/tracking.js"></script>
-
+    <script>
+      const url = new URL(window.location.href)
+      console.log(url.searchParams.get('orderId'))
+      console.log(url.searchParams.get('productId'))
+    </script>
     <!-- This code is needed for responsive design to work.
       (Responsive design = make the website look good on
       smaller screen sizes like a phone or a tablet). -->
