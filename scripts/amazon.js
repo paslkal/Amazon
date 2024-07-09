@@ -1,10 +1,6 @@
 import { cart } from "../data/cart-class.js";
 import { products, loadProducts } from "../data/products.js";
-
-function updateCartQuantity() {
-  document.querySelector('.js-cart-quantity')
-    .innerHTML = cart.calculateCartQuantity()
-}
+import { updateCartQuantity } from "./utils/cartQuantity.js";
 
 updateCartQuantity()
 

@@ -2,6 +2,8 @@ import { orders } from "../data/orders.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { formatCurrency } from "./utils/money.js";
 import { getProduct } from "../data/products.js";
+import { cart } from "../data/cart-class.js";
+import { updateCartQuantity } from "./utils/cartQuantity.js";
 
 function formatDate(date) {
   return dayjs(date).format('MMMM D')
@@ -12,9 +14,9 @@ async function renderOrders() {
 
   for (const order of orders) {
     const orderId = order.id
-    const orderTime = order.orderTime
-    const totalCostCents = order.totalCostCents
-    const products = order.products
+    const {orderTime} = order
+    const {totalCostCents} = order
+    const {products} = order
 
     const orderHeaderHTML = `
       <div class="order-header-left-section">
@@ -37,8 +39,8 @@ async function renderOrders() {
     let orderDetailsHTML = ''
 
     for (const product of products) {
-      const productId = product.productId
-      const quantity = product.quantity
+      const {productId} = product
+      const {quantity} = product
       const deliveryTime = product.estimatedDeliveryTime
       
       const productDetails = await getProduct(productId)
@@ -60,14 +62,15 @@ async function renderOrders() {
           <div class="product-quantity">
             Quantity: ${quantity}
           </div>
-          <button class="buy-again-button button-primary">
+          <button class="buy-again-button js-buy-again-button button-primary"
+          data-product-id="${productId}">
             <img class="buy-again-icon" src="images/icons/buy-again.png">
             <span class="buy-again-message">Buy it again</span>
           </button>
         </div>
 
         <div class="product-actions">
-          <a href="tracking.html?orderId=123&productId=456">
+          <a href="tracking.html?orderId=${orderId}&productId=${productId}">
             <button class="track-package-button button-secondary">
               Track package
             </button>
@@ -90,6 +93,15 @@ async function renderOrders() {
   }
 
   document.querySelector('.js-orders-grid').innerHTML = html
+  
+  document.querySelectorAll('.js-buy-again-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const {productId} = button.dataset
+      cart.addToCart(productId, 1)
+      updateCartQuantity()
+    })
+  })
 }
 
+updateCartQuantity()
 renderOrders()
