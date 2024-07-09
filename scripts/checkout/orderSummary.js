@@ -44,15 +44,15 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
 
 
 
-export function renderOrderSummary() {
+export async function renderOrderSummary() {
   let cartSummaryHTML = '';
 
   renderCheckoutHeader();
 
-  cart.cartItems.forEach((cartItem) => {
+  for (const cartItem of cart.cartItems) {
     const { productId } = cartItem;
 
-    const matchingProduct = getProduct(productId)
+    const matchingProduct = await getProduct(productId)
 
     const { deliveryOptionId } = cartItem;
 
@@ -120,7 +120,7 @@ export function renderOrderSummary() {
         </div>
       </div>
     `;
-  });
+  };
 
   document.querySelector('.js-order-summary')
     .innerHTML = cartSummaryHTML;
