@@ -14,6 +14,7 @@ function findProductDetails(orderId, productId) {
         if (productId === product.productId) {
           return {
             quantity: product.quantity,
+            orderTime:order.orderTime,
             deliveryTime: product.estimatedDeliveryTime
           }
         }
@@ -22,17 +23,38 @@ function findProductDetails(orderId, productId) {
   }
 }
 
+function calculateProgress(orderTime, deliveryTime) {
+  const currentTime = dayjs()
+  orderTime = dayjs(orderTime)
+  deliveryTime = dayjs(deliveryTime)
+
+  const percent = Math.round(
+    ((currentTime - orderTime)/(deliveryTime - orderTime)) * 100
+  )
+  
+  let status
+
+  if (percent>=0 && percent<=49) {
+    status = 1
+  } else if (percent >= 50 && percent <= 99) {
+    status = 2
+  } else {
+    status = 3
+  }
+
+  return {percent, status}
+}
+
 async function renderTracking() {
   const url = new URL(window.location.href)
   const orderId = url.searchParams.get('orderId')
   const productId = url.searchParams.get('productId')
 
   const product = await getProduct(productId) 
-  const {image} = product
-  const {name} = product
-  const {quantity} = findProductDetails(orderId, productId)
-  const {deliveryTime} = findProductDetails(orderId, productId)
-  
+  const {image, name} = product
+  const {quantity, orderTime, deliveryTime} = findProductDetails(orderId, productId)
+  const {percent, status} = calculateProgress(orderTime, deliveryTime)
+
   const html = `
     <a class="back-to-orders-link link-primary" 
       href="orders.html">
@@ -54,19 +76,19 @@ async function renderTracking() {
     <img class="product-image" src="${image}">
 
     <div class="progress-labels-container">
-      <div class="progress-label">
+      <div class="progress-label ${status === 1 && 'current-status'}">
         Preparing
       </div>
-      <div class="progress-label current-status">
+      <div class="progress-label ${status === 2 && 'current-status'}">
         Shipped
       </div>
-      <div class="progress-label">
+      <div class="progress-label ${status === 3 && 'current-status'}">
         Delivered
       </div>
     </div>
 
     <div class="progress-bar-container">
-      <div class="progress-bar"></div>
+      <div class="progress-bar" style="width:${percent}%"></div>
     </div>
   `
 
