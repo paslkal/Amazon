@@ -21,6 +21,15 @@ function addMessage({addedMessage, productId, addedMessageTimeouts}) {
 
 loadProducts(renderProductsGrid)
 
+function changeUrl() {
+  const input = document.querySelector('.js-search-bar').value
+  if (input) {
+    window.location.href = `amazon.html?search=${input}`
+  } else {
+    window.location.href = `amazon.html`
+  }
+}
+
 function renderProductsGrid() {
   let productsHTML = '';
 
@@ -99,6 +108,16 @@ function renderProductsGrid() {
 
       updateCartQuantity()
     })
+  })
+
+  document.querySelector('.js-search-button').addEventListener('click', () => {
+    changeUrl()
+  })
+
+  document.querySelector('.js-search-bar').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      changeUrl()
+    }
   })
 }
 

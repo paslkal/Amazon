@@ -20,6 +20,7 @@ export class Product {
   name
   rating
   priceCents
+  keywords
 
   constructor(productDetails) {
     this.id = productDetails.id
@@ -27,6 +28,7 @@ export class Product {
     this.name = productDetails.name
     this.rating = productDetails.rating
     this.priceCents = productDetails.priceCents
+    this.keywords = productDetails.keywords
   }
 
   getStartsUrl() {
@@ -113,6 +115,9 @@ export function loadProductsFetch() {
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest()
   xhr.addEventListener('load', () => {
+    const url = new URL(window.location.href)
+    const search = url.searchParams.get('search')
+  
     products = JSON.parse(xhr.response).map((productDetails) => {
       if (productDetails.type === 'clothing') {
         return new Clothing(productDetails)
@@ -122,6 +127,24 @@ export function loadProducts(fun) {
     
       return new Product(productDetails)
     })
+
+    if (search) {
+      const input = document.querySelector('.js-search-bar')
+      input.setAttribute('value', search)
+      
+      const filteredProducts = products.filter((product) => {
+        const name = product.name.toLowerCase()
+        const {keywords} = product
+        for (const keyword of keywords) {
+          if (name.includes(search) || keyword.includes(search)) {
+            return product
+          }
+        }
+      })
+
+      products.length = 0
+      products.push(...filteredProducts)
+    }
 
     console.log('load products')
 
