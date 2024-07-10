@@ -1,6 +1,9 @@
 import {getProduct} from '../data/products.js'
 import { orders } from '../data/orders.js'
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import {updateCartQuantity} from './utils/cartQuantity.js'
+
+updateCartQuantity()
 
 function formatDate(date) {
   return dayjs(date).format('dddd, MMMM D') 
@@ -28,9 +31,8 @@ function calculateProgress(orderTime, deliveryTime) {
   orderTime = dayjs(orderTime)
   deliveryTime = dayjs(deliveryTime)
 
-  const percent = Math.round(
-    ((currentTime - orderTime)/(deliveryTime - orderTime)) * 100
-  )
+  const percent = ((currentTime - orderTime)/(deliveryTime - orderTime)) * 100
+  
   
   let status
 
@@ -38,7 +40,7 @@ function calculateProgress(orderTime, deliveryTime) {
     status = 1
   } else if (percent >= 50 && percent <= 99) {
     status = 2
-  } else {
+  } else if (percent >= 100){
     status = 3
   }
 
@@ -88,7 +90,7 @@ async function renderTracking() {
     </div>
 
     <div class="progress-bar-container">
-      <div class="progress-bar" style="width:${percent}%"></div>
+      <div class="progress-bar" style="width: ${percent}%"></div>
     </div>
   `
 
