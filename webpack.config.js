@@ -1,3 +1,4 @@
+// const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require('path');
 
 module.exports = {
@@ -14,9 +15,24 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
+      }, 
+      {
+        test: /\.css$/,
+        use: ["style-loader","css-loader",]
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"
+        ]
+      }
     ],
   },
+  // plugins: [
+  //   new HtmlWebpackPlugin({
+  //     filename: "index.html",
+  //     template: path.resolve(__dirname, "amazon2.html")
+  //   })
+  // ],
   devServer: {
     static: path.join(__dirname, 'dist'),
     compress: true,

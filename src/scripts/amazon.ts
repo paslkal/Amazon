@@ -1,5 +1,8 @@
 import { cart } from "../data/cart-class";
 import { products, loadProducts } from "../data/products";
+import '../../styles-sass/shared/general.scss'
+import '../../styles-sass/shared/amazon-header.scss'
+import '../../styles-sass/pages/amazon.scss'
 
 export function updateCartQuantity() {
   document.querySelector('.js-cart-quantity')!

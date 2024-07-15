@@ -4,6 +4,9 @@ import { formatCurrency } from "./utils/money";
 import { getProduct } from "../data/products";
 import { cart } from "../data/cart-class";
 import { updateCartQuantity } from "./amazon";
+import '../../styles-sass/shared/general.scss'
+import '../../styles-sass/shared/amazon-header.scss'
+import '../../styles-sass/pages/orders.scss'
 
 function formatDate(date : dayjs.Dayjs | string) {
   return dayjs(date).format('MMMM D')

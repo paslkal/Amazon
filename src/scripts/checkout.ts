@@ -2,6 +2,10 @@ import { renderOrderSummary } from "./checkout/orderSummary";
 import { renderPaymentSummary } from "./checkout/paymentSummary";
 import { loadProductsFetch } from "../data/products";
 import { cart } from "../data/cart-class";
+import '../../styles-sass/shared/general.scss'
+import '../../styles-sass/pages/checkout/checkout-header.scss'
+import '../../styles-sass/pages/checkout/checkout.scss'
+
 // import '../data/backend-practice.js' 
 
 async function loadPage() {  
