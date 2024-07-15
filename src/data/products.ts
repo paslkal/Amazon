@@ -34,13 +34,18 @@ interface ProductDetails {
   id : string
   image : string
   name : string
-  rating : {count: number, stars: number}
+  rating : Rating
   priceCents : number
   keywords : string[],
   type? : string,
   sizeChartLink? : string,
   applienceInstructions?: string
   applienceWarranty?: string
+}
+
+interface Rating {
+  count: number, 
+  stars: number
 }
 
 export class Product {

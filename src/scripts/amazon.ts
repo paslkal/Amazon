@@ -13,9 +13,9 @@ interface addedMessageTimeouts {
 } 
 
 interface addMessage {
-  addedMessage: HTMLDivElement
-  productId: string,
-  addedMessageTimeouts: addedMessageTimeouts
+  readonly addedMessage: HTMLDivElement
+  readonly productId: string,
+  readonly addedMessageTimeouts: addedMessageTimeouts
 }
 
 function addMessage({addedMessage, productId, addedMessageTimeouts} : addMessage) {

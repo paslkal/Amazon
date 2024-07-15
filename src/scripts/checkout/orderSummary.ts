@@ -1,12 +1,10 @@
-import { cart } from "../../data/cart-class";
+import { cart, CartItem } from "../../data/cart-class";
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } 
   from "../../data/deliveryOptions";
-import { getProduct } from "../../data/products";
+import { getProduct, Product } from "../../data/products";
 import { formatCurrency } from "../utils/money";
 import { renderPaymentSummary } from './paymentSummary';
 import { renderCheckoutHeader } from './checkoutHeader';
-import { Product } from "../../data/products";
-import { CartItem } from "../../data/cart-class";
 
 function deliveryOptionsHTML(matchingProduct : Product, cartItem : CartItem) {
   let html = '';
