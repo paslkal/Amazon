@@ -1,4 +1,6 @@
 import { formatCurrency } from "../scripts/utils/money";
+const port : number = 1000
+const host : string = '127.0.0.1'
 
 export async function getProduct(productId : string) {
   const exampleOfProduct = new Product({
@@ -120,7 +122,7 @@ export class Applience extends Product{
 export let products : Product[] = []
 
 export function loadProductsFetch() {
-  const promise = fetch('https://supersimplebackend.dev/products')
+  const promise = fetch(`http://${host}:${port}/products`)
     .then((response) => {
       return response.json()
     }).then((productsData) => {
@@ -134,7 +136,7 @@ export function loadProductsFetch() {
         return new Product(productDetails)
       })
 
-      console.log('load products')
+      console.log('load products from local server')
     }).catch((error) => {
       console.log('Unexpected error. Please try again later.')
       console.log(error)
@@ -182,7 +184,7 @@ export function loadProducts(fun : Function) {
       products.push(...filteredProducts)
     }
 
-    console.log('load products')
+    console.log('load products from local server')
 
     fun()
   })
@@ -192,7 +194,7 @@ export function loadProducts(fun : Function) {
     console.log(error)
   })
 
-  xhr.open('GET', 'https://supersimplebackend.dev/products')
+  xhr.open('GET', `http://${host}:${port}/products`)
   xhr.send()
 }
 

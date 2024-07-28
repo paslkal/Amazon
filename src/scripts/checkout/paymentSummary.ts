@@ -3,6 +3,8 @@ import { getProduct } from "../../data/products";
 import { getDeliveryOption } from "../../data/deliveryOptions";
 import { formatCurrency } from "../utils/money";
 import { addOrder } from "../../data/orders";
+const port : number = 1000
+const host : string = '127.0.0.1'
 
 export async function renderPaymentSummary() {
   let productPriceCents = 0
@@ -71,7 +73,7 @@ export async function renderPaymentSummary() {
   document.querySelector('.js-place-order')!
     .addEventListener('click',async () => {
       try {
-        const response = await fetch('https://supersimplebackend.dev/orders', {
+        const response = await fetch(`http://${host}:${port}/orders`, {
           method: 'POST',
           body: JSON.stringify({
             cart

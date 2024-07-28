@@ -1,4 +1,6 @@
 import { getDeliveryOption } from "./deliveryOptions"
+const port : number = 1000
+const host : string = '127.0.0.1'
 
 export interface CartItem {
   productId : string,
@@ -115,7 +117,7 @@ class Cart {
     }
 
     async loadCartFetch() {
-      const response = await fetch('https://supersimplebackend.dev/cart')
+      const response = await fetch(`http://${host}:${port}/cart`)
       const message = await response.text()
       console.log(message)
       return message
@@ -128,7 +130,7 @@ class Cart {
     
         fun()
       })
-      xhr.open('GET', 'https://supersimplebackend.dev/cart')
+      xhr.open('GET', `http://${host}:${port}/cart`)
       xhr.send()
     }
     
