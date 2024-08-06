@@ -2,7 +2,13 @@ let cart = require('./data/cart.json')
 const fs = require('fs')
 const path = require('path')
 function getCart() {
-  return cart
+  const cartFromFile = JSON.parse(fs.readFileSync(
+    path.resolve(__dirname,'./data', 'cart.json'), 'utf-8', (err, data) => {
+      if (err) throw err
+      return data
+    }
+  ))
+  return cartFromFile
 }
 
 async function addToCart(productId, quantity) {
@@ -63,7 +69,7 @@ async function updateCartQuantity(productId, newQuantity) {
   return cart
 }
 
-async function removeAllFromCart() {
+function removeAllFromCart() {
   fs.writeFileSync(
     path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify([])
   )

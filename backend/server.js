@@ -36,7 +36,7 @@ const server = http.createServer(async (req, res) => {
       totalCostCents: calculateTotal(cart),
       products
     }
-    await Cart.removeAllFromCart()
+    Cart.removeAllFromCart()
     res.end(JSON.stringify(order))
   } else if (req.url === '/cart' && req.method === 'GET') {
     res.writeHead(200, {"Content-Type" : "application/json"})
