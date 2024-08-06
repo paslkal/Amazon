@@ -68,25 +68,25 @@ export async function renderPaymentSummary() {
     .innerHTML = paymentSummaryHTML
  
   document.querySelector('.js-items-quantity')!
-    .innerHTML = `Quantity: ${cart.calculateCartQuantity()}`
+    .innerHTML = `Quantity: ${await cart.calculateCartQuantity()}`
 
   document.querySelector('.js-place-order')!
     .addEventListener('click',async () => {
       try {
         const response = await fetch(`http://${host}:${port}/orders`, {
           method: 'POST',
-          body: JSON.stringify({
-            cart
-          }),
+          body: JSON.stringify(cart.cartItems),
           headers: {
             'Content-type': 'application/json'
           }
         })
   
         const order = await response.json()
-        addOrder(order)        
+        addOrder(order)
+        await cart.loadCartFetch()       
       } catch (error) {
         console.log('Unexpected error. Try again later')
+        console.log(error)
       }
 
       window.location.href = 'orders.html'

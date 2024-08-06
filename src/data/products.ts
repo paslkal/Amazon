@@ -138,7 +138,7 @@ export function loadProductsFetch() {
 
       console.log('load products from local server')
     }).catch((error) => {
-      console.log('Unexpected error. Please try again later.')
+      console.log('Unexpected error in loadProductsFetch.')
       console.log(error)
     })
 

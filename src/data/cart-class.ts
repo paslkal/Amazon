@@ -56,31 +56,53 @@ class Cart {
       this.saveToStorage()
     }
   
-    updateCartQuantity(productId : string, newQuantity : number) {
+    async updateCartQuantity(productId : string, quantity : number) {
+      /*
       this.cartItems.forEach((cartItem) => {
         if (cartItem.productId === productId) {
           cartItem.quantity = newQuantity
         } 
       })
-    
-      this.saveToStorage()
+      */
+     try {
+       await fetch(`http://${host}:${port}/cart`, {
+         method: 'PUT',
+         body: JSON.stringify({productId, quantity}),
+         headers: {"content-type" : "application/json"}
+       })
+ 
+       await this.loadCartFetch()
+     } catch (error) {
+      console.log(error)
+     }
     }
   
-    calculateCartQuantity() {
-      let cartQuantity = 0
-    
-      this.cartItems.forEach((cartItem) => {
-        cartQuantity+= cartItem.quantity
-      })
-    
-      return cartQuantity
+    async calculateCartQuantity() {
+      try {
+        const response = await fetch(`http://${host}:${port}/cart`)
+        const cart = await response.json()
+        let cartQuantity = 0
+      
+        cart.forEach((cartItem : CartItem) => {
+          cartQuantity += cartItem.quantity
+        })
+      
+        const cartQuantityString = cartQuantity.toString()
+  
+        return cartQuantityString        
+      } catch (error) {
+        console.log('Unexpected Error in calculateCartQuantity')
+        console.log(error)
+        return ''
+      }
     }
   
     saveToStorage() {
       localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems))
     }
     
-    addToCart(productId : string, quantity : number) {
+    async addToCart(productId : string, quantity : number) {
+      /*
       let matchingItem : CartItem | undefined
     
       this.cartItems.forEach((cartItem) => {
@@ -98,13 +120,25 @@ class Cart {
           deliveryOptionId: '1'
         })
       }
-    
-      this.saveToStorage()
-    }
+      */
+      try {
+        await fetch(`http://${host}:${port}/cart`, {
+          method: "POST",
+          body: JSON.stringify({productId, quantity}),
+          headers: {"Content-type" : "application/json"}
+        })
   
-    removeFromCart(productId : string) {
+        await this.loadCartFetch()
+  
+      } catch (error) {
+          console.log(error)   
+      }    
+      }
+  
+    async removeFromCart(productId : string) {
+      /*
       const newCart : CartItem[] = []
-    
+      
       this.cartItems.forEach((cartItem) => {
         if (cartItem.productId !== productId) {
           newCart.push(cartItem)
@@ -112,22 +146,33 @@ class Cart {
       })
     
       this.cartItems = newCart
-    
-      this.saveToStorage()
+      */
+
+      try {
+        fetch(`http://${host}:${port}/cart`, {
+          method: 'DELETE',
+          body: JSON.stringify({productId}),
+          headers: {"content-type" : "application/json"}
+        })
+  
+        await this.loadCartFetch()  
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     async loadCartFetch() {
       const response = await fetch(`http://${host}:${port}/cart`)
-      const message = await response.text()
-      console.log(message)
-      return message
+      const cart = await response.json()
+      this.cartItems = cart
+      this.saveToStorage()
+      return cart
     }
     
     loadCart(fun : Function) {
       const xhr = new XMLHttpRequest()
       xhr.addEventListener('load', () => {
         console.log(xhr.response)
-    
         fun()
       })
       xhr.open('GET', `http://${host}:${port}/cart`)
@@ -135,7 +180,6 @@ class Cart {
     }
     
 }  
-
 
 export const cart = new Cart('cart-oop')
 // const businessCart = new Cart('cart-business')

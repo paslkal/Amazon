@@ -2,7 +2,7 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     amazon: ['./src/scripts/amazon.ts'],
     checkout: ['./src/scripts/checkout.ts'],

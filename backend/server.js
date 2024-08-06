@@ -2,24 +2,23 @@ const http = require('http')
 const fs = require('fs')
 const port = process.env.port || 1000
 const host = '127.0.0.1'
-const products = require('./products.json')
+const products = require('./data/products.json')
+// const cart = require('./data/cart.json')
 const {v4 : uuidv4} = require('uuid')
 const dayjs = require('dayjs')
+const Cart = require('./cart.js')
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', false);
+  // res.setHeader("Access-Control-Allow-Private-Network", true);
 
   if (req.url === '/products' && req.method === 'GET') {
     res.writeHead(200, {"Content-Type" : "application/json"})
     // res.write(JSON.stringify(products))
     res.end(JSON.stringify(products))
-  } else if (req.url === '/cart' && req.method === 'GET') {
-    res.writeHead(200, {"Content-Type" : "text-html"})
-    res.write('load cart from local server')
-    res.end()
   } else if (req.url === '/orders' && req.method === 'POST') {
     res.writeHead(200, {"Content-Type" : "application/json"})
     const body = await getCart(req)
@@ -37,12 +36,49 @@ const server = http.createServer(async (req, res) => {
       totalCostCents: calculateTotal(cart),
       products
     }
-    res.write(JSON.stringify(order))
-    res.end()
-  } else {
+    await Cart.removeAllFromCart()
+    res.end(JSON.stringify(order))
+  } else if (req.url === '/cart' && req.method === 'GET') {
+    res.writeHead(200, {"Content-Type" : "application/json"})
+    const cart = Cart.getCart()
+    res.end(JSON.stringify(cart))
+  } else if (req.url === '/cart' && req.method === 'POST') { // add new product
+    body = ''
+    req.on('data', (chunk) => {
+      body += chunk
+    }).on('end', async () => {
+      const {productId, quantity} = JSON.parse(body)
+      const cart = await Cart.addToCart(productId, quantity)
+      res.writeHead(200, {"Content-Type" : "application/json"})
+      res.end(JSON.stringify(cart))
+    })
+  } else if (req.url === '/cart' && req.method === 'PUT') { // update cart
+    body = ''
+    req.on('data', (chunk) => {
+      body += chunk
+    }).on('end',async () => {
+      const {productId, quantity} = JSON.parse(body)
+      const cart = await Cart.updateCartQuantity(productId, quantity)
+      res.writeHead(200, {"Content-Type" : "application/json"})
+      res.end(JSON.stringify(cart))
+    })
+  } else if (req.url === '/cart' && req.method === 'DELETE') {
+    body=''
+    req.on('data', (chunk) => {
+      body += chunk
+    }).on('end', async () => {
+      const {productId} = JSON.parse(body)
+      const cart = await Cart.removeFromCart(productId)
+      res.writeHead(200, {"Content-Type" : "application/json"})
+      res.end(JSON.stringify(cart))
+    })
+  } else if (req.method === 'OPTIONS') {
+    res.writeHead(200, {"Content-type":"text/html"})
+    res.end('Server recieves OPTIONS method, he is ok with it')
+  } 
+  else {
     res.writeHead(404, {"Content-Type" : "text/html"})
-    // res.write({"Error" : "Unexpected error"})
-    res.end('Unexpected Error 404')
+    res.end("Unexpected error 404: Not Found")
   }
 })
 
@@ -75,17 +111,18 @@ function getCart(req) {
 }
 
 function getProducts(cart) {
-  console.log(cart)
   const products = []
-  for (const cartItem of cart) {
+  cart.forEach((cartItem) => {
     const product = {
-      estimatedDeliveryTime : calculateEstimatedDeliveryDate(getDeliveryOption(cartItem.deliveryOptionId)),
+      estimatedDeliveryTime : calculateEstimatedDeliveryDate(
+        getDeliveryOption(cartItem.deliveryOptionId)
+      ),
       productId : cartItem.productId,
       quantity : cartItem.quantity,
       variation : null,  
     }
     products.push(product)
-  }
+  })
 
   return products
 }
@@ -96,6 +133,7 @@ function isWeekend(date) {
   return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday'
 }
 
+//!except that(start)
 function calculateEstimatedDeliveryDate(deliveryOption) {
   let remainingDays = deliveryOption.deliveryDays
   let deliveryDate = dayjs()
@@ -110,7 +148,7 @@ function calculateEstimatedDeliveryDate(deliveryOption) {
 
   return deliveryDate
 }
-
+//!end
 function getDeliveryOption(deliveryOptionId) {
   let deliveryOption = {
     id : 'someId',

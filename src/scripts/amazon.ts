@@ -4,9 +4,9 @@ import '../../styles-sass/shared/general.scss'
 import '../../styles-sass/shared/amazon-header.scss'
 import '../../styles-sass/pages/amazon.scss'
 
-export function updateCartQuantity() {
+export async function updateCartQuantity() {
   document.querySelector('.js-cart-quantity')!
-    .innerHTML = cart.calculateCartQuantity().toString()
+    .innerHTML = await cart.calculateCartQuantity()
 }
 
 updateCartQuantity()
