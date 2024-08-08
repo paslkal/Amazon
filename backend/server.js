@@ -1,96 +1,96 @@
+const express = require('express')
+const app = express()
 const http = require('http')
-const fs = require('fs')
 const port = process.env.port || 1000
 const host = '127.0.0.1'
 const products = require('./data/products.json')
-// const cart = require('./data/cart.json')
 const {v4 : uuidv4} = require('uuid')
 const dayjs = require('dayjs')
 const Cart = require('./cart.js')
 
-const server = http.createServer(async (req, res) => {
+app.use('/', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', false);
+  res.setHeader('Access-Control-Allow-Credentials', false);  
   // res.setHeader("Access-Control-Allow-Private-Network", true);
+  next()
+})
 
-  if (req.url === '/products' && req.method === 'GET') {
-    res.writeHead(200, {"Content-Type" : "application/json"})
-    // res.write(JSON.stringify(products))
-    res.end(JSON.stringify(products))
-  } else if (req.url === '/orders' && req.method === 'POST') {
-    res.writeHead(200, {"Content-Type" : "application/json"})
-    const body = await getCart(req)
-    const cart = JSON.parse(body)
-    /*
-    estimatedDeliveryTime : "2024-07-18T19:51:49.023Z"
-    productId : "15b6fc6f-327a-4ec4-896f-486349e85a3d"
-    quantity : 2
-    variation : null
-    */
-    const products = getProducts(cart)
-    const order = {
-      id: uuidv4(),
-      orderTime: dayjs(),
-      totalCostCents: calculateTotal(cart),
-      products
-    }
-    Cart.removeAllFromCart()
-    res.end(JSON.stringify(order))
-  } else if (req.url === '/cart' && req.method === 'GET') {
-    res.writeHead(200, {"Content-Type" : "application/json"})
-    const cart = Cart.getCart()
-    res.end(JSON.stringify(cart))
-  } else if (req.url === '/cart' && req.method === 'POST') { // add new product
-    body = ''
-    req.on('data', (chunk) => {
-      body += chunk
-    }).on('end', async () => {
-      const {productId, quantity} = JSON.parse(body)
-      const cart = await Cart.addToCart(productId, quantity)
-      res.writeHead(200, {"Content-Type" : "application/json"})
-      res.end(JSON.stringify(cart))
-    })
-  } else if (req.url === '/cart' && req.method === 'PUT') { // update cart
-    body = ''
-    req.on('data', (chunk) => {
-      body += chunk
-    }).on('end',async () => {
-      const {productId, quantity} = JSON.parse(body)
-      const cart = await Cart.updateCartQuantity(productId, quantity)
-      res.writeHead(200, {"Content-Type" : "application/json"})
-      res.end(JSON.stringify(cart))
-    })
-  } else if (req.url === '/cart' && req.method === 'DELETE') {
-    body=''
-    req.on('data', (chunk) => {
-      body += chunk
-    }).on('end', async () => {
-      const {productId} = JSON.parse(body)
-      const cart = await Cart.removeFromCart(productId)
-      res.writeHead(200, {"Content-Type" : "application/json"})
-      res.end(JSON.stringify(cart))
-    })
-  } else if (req.method === 'OPTIONS') {
-    res.writeHead(200, {"Content-type":"text/html"})
-    res.end('Server recieves OPTIONS method, he is ok with it')
-  } 
-  else {
-    res.writeHead(404, {"Content-Type" : "text/html"})
-    res.end("Unexpected error 404: Not Found")
+app.get('/products', (req, res, next) => {
+  res.json(products)
+})
+
+app.post('/orders', async (req, res, next) => {
+  const body = await getCart(req)
+  const cart = JSON.parse(body)
+  const products = getProducts(cart)
+  const order = {
+    id: uuidv4(),
+    orderTime: dayjs(),
+    totalCostCents: calculateTotal(cart),
+    products
   }
+  Cart.removeAllFromCart()
+  res.json(order)
+})
+
+app.get('/cart', (req, res, next) => {
+  const cart = Cart.getCart()
+  res.json(cart)
+})
+
+app.post('/cart', (req, res, next) => {
+  body = ''
+  req.on('data', (chunk) => {
+    body += chunk
+  }).on('end', async () => {
+    const {productId, quantity} = JSON.parse(body)
+    const cart = await Cart.addToCart(productId, quantity)
+    res.json(cart)
+  })
+})
+
+app.put('/cart', (req, res, next) => {
+  body = ''
+  req.on('data', (chunk) => {
+    body += chunk
+  }).on('end',async () => {
+    const {productId, quantity} = JSON.parse(body)
+    const cart = await Cart.updateCartQuantity(productId, quantity)
+    res.json(cart)
+  })
+})
+
+app.delete('/cart', (req, res, next) => {
+  body=''
+  req.on('data', (chunk) => {
+    body += chunk
+  }).on('end', async () => {
+    const {productId} = JSON.parse(body)
+    const cart = await Cart.removeFromCart(productId)
+    res.json(cart)
+  })
+})
+
+app.options('*', (req, res, next) => {
+  res.send('Server recieves OPTIONS method, he is ok with it')
+})
+
+app.listen(port, host, () => {
+  console.log(`server running on http://${host}:${port}`)
 })
 
 function calculateTotal(cart) {
   let total = 0
-  for (const cartItem of cart) {
-    for (const product of products) {
+
+  cart.forEach(cartItem => {
+    products.forEach(product => {
       if (product.id === cartItem.productId) {
-        total += product.priceCents
+        total+=product.priceCents
       }
-    }
-  }
+    })
+  })
 
   return total
 }
@@ -179,6 +179,3 @@ const deliveryOptions = [{
   priceCents: 999
 }]
 //!end
-server.listen(port, host, () => {
-  console.log(`server running on http://${host}:${port}`)
-})
