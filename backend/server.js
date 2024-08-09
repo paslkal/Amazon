@@ -81,19 +81,18 @@ app.listen(port, host, () => {
   console.log(`server running on http://${host}:${port}`)
 })
 
-function calculateTotal(cart) {
-  let total = 0
+function getProduct(productId) {
+  let matchingProduct
 
-  cart.forEach(cartItem => {
-    products.forEach(product => {
-      if (product.id === cartItem.productId) {
-        total+=product.priceCents
-      }
-    })
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchingProduct = product
+    }
   })
 
-  return total
+  return matchingProduct
 }
+
 
 function getCart(req) {
   let body = ''
@@ -123,17 +122,36 @@ function getProducts(cart) {
     }
     products.push(product)
   })
-
+  
   return products
 }
 // TODO: Переписать это, используя ts и webpack/vite
 //!start
+
+function calculateTotal(cart) {
+  let productPriceCents = 0
+  let shippingPriceCents = 0
+
+  cart.forEach(cartItem => {
+    const product = getProduct(cartItem.productId)
+    productPriceCents+= product.priceCents * cartItem.quantity
+
+    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId)
+    shippingPriceCents+=deliveryOption.priceCents
+  })
+
+  const totalBeforeTaxCents = productPriceCents + shippingPriceCents
+  const taxCents = totalBeforeTaxCents * 0.1
+  const totalCents = totalBeforeTaxCents + taxCents
+
+  return totalCents
+}
+
 function isWeekend(date) {
   const dayOfWeek = date.format('dddd')
   return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday'
 }
 
-//!except that(start)
 function calculateEstimatedDeliveryDate(deliveryOption) {
   let remainingDays = deliveryOption.deliveryDays
   let deliveryDate = dayjs()
@@ -148,7 +166,7 @@ function calculateEstimatedDeliveryDate(deliveryOption) {
 
   return deliveryDate
 }
-//!end
+
 function getDeliveryOption(deliveryOptionId) {
   let deliveryOption = {
     id : 'someId',
