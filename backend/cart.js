@@ -1,6 +1,7 @@
 let cart = require('./data/cart.json')
 const fs = require('fs')
 const path = require('path')
+
 function getCart() {
   const cartFromFile = JSON.parse(fs.readFileSync(
     path.resolve(__dirname,'./data', 'cart.json'), 'utf-8', (err, data) => {
@@ -13,8 +14,10 @@ function getCart() {
 
 async function addToCart(productId, quantity) {
   let matchingItem
-    
-  cart.forEach((cartItem) => {
+
+  const cartItems = getCart()
+
+  cartItems.forEach((cartItem) => {
     if (productId === cartItem.productId) {
       matchingItem = cartItem
     }
@@ -23,7 +26,7 @@ async function addToCart(productId, quantity) {
   if (matchingItem) {
     matchingItem.quantity+=quantity
   } else {
-    cart.push({
+    cartItems.push({
       productId,
       quantity,
       deliveryOptionId: '1'
@@ -31,7 +34,7 @@ async function addToCart(productId, quantity) {
   }
 
   fs.writeFileSync(
-    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cart)
+    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cartItems)
   )
 
   return cart
@@ -40,13 +43,15 @@ async function addToCart(productId, quantity) {
 async function removeFromCart(productId) {
   const newCart = []
 
-  cart.forEach((cartItem) => {
+  const cartItems = getCart()
+
+  cartItems.forEach((cartItem) => {
     if (cartItem.productId !== productId) {
       newCart.push(cartItem)
     }
   })
 
-  cart = newCart
+  // cart = newCart
 
   fs.writeFileSync(
     path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cart)
@@ -56,14 +61,16 @@ async function removeFromCart(productId) {
 }
 
 async function updateCartQuantity(productId, newQuantity) {
-  cart.forEach((cartItem) => {
+  const cartItems = getCart()
+  
+  cartItems.forEach((cartItem) => {
     if (cartItem.productId === productId) {
       cartItem.quantity = newQuantity
     } 
   })
 
   fs.writeFileSync(
-    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cart)
+    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cartItems)
   )
 
   return cart
