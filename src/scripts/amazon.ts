@@ -1,13 +1,9 @@
 import { cart } from "../data/cart-class";
 import { products, loadProducts } from "../data/products";
+import updateCartQuantity from "./utils/updateCartQuantity";
 import '../../styles-sass/shared/general.scss'
 import '../../styles-sass/shared/amazon-header.scss'
 import '../../styles-sass/pages/amazon.scss'
-
-export async function updateCartQuantity() {
-  document.querySelector('.js-cart-quantity')!
-    .innerHTML = await cart.calculateCartQuantity()
-}
 
 updateCartQuantity()
 

@@ -1,7 +1,7 @@
 import {getProduct} from '../data/products'
 import { orders } from '../data/orders'
 import dayjs from 'dayjs';  
-import { updateCartQuantity } from './amazon';
+import updateCartQuantity from './utils/updateCartQuantity';
 import '../../styles-sass/shared/general.scss'
 import '../../styles-sass/shared/amazon-header.scss'
 import '../../styles-sass/pages/tracking.scss'

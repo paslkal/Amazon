@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { formatCurrency } from "./utils/money";
 import { getProduct } from "../data/products";
 import { cart } from "../data/cart-class";
-import { updateCartQuantity } from "./amazon";
+import updateCartQuantity from "./utils/updateCartQuantity";
 import '../../styles-sass/shared/general.scss'
 import '../../styles-sass/shared/amazon-header.scss'
 import '../../styles-sass/pages/orders.scss'
