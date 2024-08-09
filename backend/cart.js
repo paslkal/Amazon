@@ -1,14 +1,10 @@
-let cart = require('./data/cart.json')
 const fs = require('fs')
 const path = require('path')
 
 function getCart() {
-  const cartFromFile = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname,'./data', 'cart.json'), 'utf-8', (err, data) => {
-      if (err) throw err
-      return data
-    }
-  ))
+  const filePath = path.resolve(__dirname,'./data', 'cart.json')
+  const cartString = fs.readFileSync(filePath, 'utf-8')
+  const cartFromFile = JSON.parse(cartString)
   return cartFromFile
 }
 
@@ -37,7 +33,7 @@ async function addToCart(productId, quantity) {
     path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cartItems)
   )
 
-  return cart
+  return cartItems
 }
 
 async function removeFromCart(productId) {
@@ -51,13 +47,11 @@ async function removeFromCart(productId) {
     }
   })
 
-  // cart = newCart
-
   fs.writeFileSync(
-    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cart)
+    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cartItems)
   )
 
-  return cart
+  return cartItems
 }
 
 async function updateCartQuantity(productId, newQuantity) {
@@ -73,7 +67,7 @@ async function updateCartQuantity(productId, newQuantity) {
     path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cartItems)
   )
 
-  return cart
+  return cartItems
 }
 
 function removeAllFromCart() {

@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const http = require('http')
 const port = process.env.port || 1000
 const host = '127.0.0.1'
 const products = require('./data/products.json')
@@ -24,7 +23,7 @@ app.get('/products', (req, res, next) => {
 app.post('/orders', async (req, res, next) => {
   const body = await getCart(req)
   const cart = JSON.parse(body)
-  const products = getProducts(cart)
+  const products = getProductsForOrder(cart)
   const order = {
     id: uuidv4(),
     orderTime: dayjs(),
@@ -41,7 +40,7 @@ app.get('/cart', (req, res, next) => {
 })
 
 app.post('/cart', (req, res, next) => {
-  body = ''
+  let body = ''
   req.on('data', (chunk) => {
     body += chunk
   }).on('end', async () => {
@@ -52,7 +51,7 @@ app.post('/cart', (req, res, next) => {
 })
 
 app.put('/cart', (req, res, next) => {
-  body = ''
+  let body = ''
   req.on('data', (chunk) => {
     body += chunk
   }).on('end',async () => {
@@ -63,7 +62,7 @@ app.put('/cart', (req, res, next) => {
 })
 
 app.delete('/cart', (req, res, next) => {
-  body=''
+  let body=''
   req.on('data', (chunk) => {
     body += chunk
   }).on('end', async () => {
@@ -109,7 +108,7 @@ function getCart(req) {
   })
 }
 
-function getProducts(cart) {
+function getProductsForOrder(cart) {
   const products = []
   cart.forEach((cartItem) => {
     const product = {
