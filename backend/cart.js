@@ -48,7 +48,7 @@ async function removeFromCart(productId) {
   })
 
   fs.writeFileSync(
-    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(cartItems)
+    path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(newCart)
   )
 
   return cartItems
