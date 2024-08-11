@@ -5,7 +5,7 @@ const host = '127.0.0.1'
 const products = require('./data/products.json')
 const {v4 : uuidv4} = require('uuid')
 const dayjs = require('dayjs')
-const Cart = require('./cart.js')
+const Cart = require('./sql/cartSQL.js')
 
 app.use('/', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,6 +18,7 @@ app.use('/', (req, res, next) => {
 
 app.use(express.json())
 
+// TODO: get data from sql server
 app.get('/products', (req, res, next) => {
   res.json(products)
 })
@@ -32,12 +33,12 @@ app.post('/orders', async (req, res, next) => {
     totalCostCents: calculateTotal(cart),
     products
   }
-  Cart.removeAllFromCart()
+  await Cart.removeAllFromCart()
   res.json(order)
 })
 
-app.get('/cart', (req, res, next) => {
-  const cart = Cart.getCart()
+app.get('/cart', async (req, res, next) => {
+  const cart = await Cart.getCart()
   res.json(cart)
 })
 
