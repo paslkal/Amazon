@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "dayjs": "^1.11.12",
+    "dotenv": "^16.4.5",
     "jasmine": "^5.1.0",
+    "mysql2": "^3.11.0",
     "uuid": "^10.0.0"
   },
   "name": "js-project",
