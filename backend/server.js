@@ -2,11 +2,10 @@ const express = require('express')
 const app = express()
 const port = process.env.port || 1000
 const host = '127.0.0.1'
-const products = require('./data/products.json')
 const {v4 : uuidv4} = require('uuid')
 const dayjs = require('dayjs')
 const Cart = require('./sql/cartSQL.js')
-
+const {getProducts} = require('./sql/productsSQL.js')
 app.use('/', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -18,8 +17,8 @@ app.use('/', (req, res, next) => {
 
 app.use(express.json())
 
-// TODO: get data from sql server
-app.get('/products', (req, res, next) => {
+app.get('/products', async (req, res, next) => {
+  const products = await getProducts()
   res.json(products)
 })
 
@@ -71,8 +70,10 @@ app.listen(port, host, () => {
   console.log(`server running on http://${host}:${port}`)
 })
 
-function getProduct(productId) {
+async function getProduct(productId) {
   let matchingProduct
+
+  products = await getProducts()
 
   products.forEach((product) => {
     if (product.id === productId) {
