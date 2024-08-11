@@ -16,6 +16,8 @@ app.use('/', (req, res, next) => {
   next()
 })
 
+app.use(express.json())
+
 app.get('/products', (req, res, next) => {
   res.json(products)
 })
@@ -39,37 +41,25 @@ app.get('/cart', (req, res, next) => {
   res.json(cart)
 })
 
-app.post('/cart', (req, res, next) => {
-  let body = ''
-  req.on('data', (chunk) => {
-    body += chunk
-  }).on('end', async () => {
-    const {productId, quantity} = JSON.parse(body)
-    const cart = await Cart.addToCart(productId, quantity)
-    res.json(cart)
-  })
+// TODO: instead of cart send only product that have been added
+app.post('/cart', async (req, res, next) => {
+  const {productId, quantity} = req.body
+  const cart = await Cart.addToCart(productId, quantity)
+  res.json(cart)
 })
 
-app.put('/cart', (req, res, next) => {
-  let body = ''
-  req.on('data', (chunk) => {
-    body += chunk
-  }).on('end',async () => {
-    const {productId, quantity} = JSON.parse(body)
-    const cart = await Cart.updateCartQuantity(productId, quantity)
-    res.json(cart)
-  })
+// TODO: instead of cart send only product that have been updated
+app.put('/cart', async (req, res, next) => {
+  const {productId, quantity} = req.body
+  const cart = await Cart.updateCartQuantity(productId, quantity)
+  res.json(cart)
 })
 
-app.delete('/cart', (req, res, next) => {
-  let body=''
-  req.on('data', (chunk) => {
-    body += chunk
-  }).on('end', async () => {
-    const {productId} = JSON.parse(body)
-    const cart = await Cart.removeFromCart(productId)
-    res.json(cart)
-  })
+// TODO: instead of cart send only sorted cart by product id that been removed
+app.delete('/cart', async (req, res, next) => {
+  const {productId} = req.body
+  const cart = await Cart.removeFromCart(productId)
+  res.json(cart)
 })
 
 app.options('*', (req, res, next) => {
@@ -125,8 +115,9 @@ function getProductsForOrder(cart) {
   return products
 }
 // TODO: Переписать это, используя ts и webpack/vite
-//!start
+// TODO: Или переписать это так, чтобы все это обробатовал backend и отправлял в фронт
 
+//!start
 function calculateTotal(cart) {
   let productPriceCents = 0
   let shippingPriceCents = 0

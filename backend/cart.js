@@ -8,7 +8,7 @@ function getCart() {
   return cartFromFile
 }
 
-async function addToCart(productId, quantity) {
+function addToCart(productId, quantity) {
   let matchingItem
 
   const cartItems = getCart()
@@ -36,7 +36,7 @@ async function addToCart(productId, quantity) {
   return cartItems
 }
 
-async function removeFromCart(productId) {
+function removeFromCart(productId) {
   const newCart = []
 
   const cartItems = getCart()
@@ -51,10 +51,10 @@ async function removeFromCart(productId) {
     path.resolve(__dirname,'./data', 'cart.json'), JSON.stringify(newCart)
   )
 
-  return cartItems
+  return newCart
 }
 
-async function updateCartQuantity(productId, newQuantity) {
+function updateCartQuantity(productId, newQuantity) {
   const cartItems = getCart()
   
   cartItems.forEach((cartItem) => {
