@@ -41,8 +41,8 @@ interface ProductDetails {
   keywords : string[],
   type? : string,
   sizeChartLink? : string,
-  applienceInstructions?: string
-  applienceWarranty?: string
+  applianceInstructions?: string
+  applianceWarranty?: string
 }
 
 interface Rating {
@@ -100,21 +100,21 @@ export class Clothing extends Product{
 
 export class Applience extends Product{
   type : string | undefined
-  applienceInstructions : string | undefined
-  applienceWarranty : string | undefined
+  applianceInstructions : string | undefined
+  applianceWarranty : string | undefined
 
   constructor(productDetails : ProductDetails) {
     super(productDetails)
 
     this.type = productDetails.type
-    this.applienceInstructions = productDetails.applienceInstructions
-    this.applienceWarranty = productDetails.applienceWarranty
+    this.applianceInstructions = productDetails.applianceInstructions
+    this.applianceWarranty = productDetails.applianceWarranty
   }
 
   extraInfoHTML() {
     return `
-      <a href="${this.applienceInstructions}" target="_blank">Instructions</a>
-      <a href="${this.applienceWarranty}" target="_blank">Warranty</a>
+      <a href="${this.applianceInstructions}" target="_blank">Instructions</a>
+      <a href="${this.applianceWarranty}" target="_blank">Warranty</a>
     `
   }
 }
