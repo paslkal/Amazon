@@ -29,7 +29,7 @@ app.post('/orders', async (req, res, next) => {
   const order = {
     id: uuidv4(),
     orderTime: dayjs(),
-    totalCostCents: calculateTotal(cart),
+    totalCostCents: await calculateTotal(cart),
     products
   }
   await Cart.removeAllFromCart()
@@ -78,7 +78,7 @@ app.listen(port, host, () => {
 async function getProduct(productId) {
   let matchingProduct
 
-  products = await getProducts()
+  const products = await getProducts()
 
   products.forEach((product) => {
     if (product.id === productId) {
@@ -109,17 +109,17 @@ function getProductsForOrder(cart) {
 // TODO: Или переписать это так, чтобы все это обробатовал backend и отправлял в фронт
 
 //!start
-function calculateTotal(cart) {
+async function calculateTotal(cart) {
   let productPriceCents = 0
   let shippingPriceCents = 0
 
-  cart.forEach(cartItem => {
-    const product = getProduct(cartItem.productId)
+  for (const cartItem of cart) {
+    const product = await getProduct(cartItem.productId)
     productPriceCents+= product.priceCents * cartItem.quantity
 
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId)
     shippingPriceCents+=deliveryOption.priceCents
-  })
+  }
 
   const totalBeforeTaxCents = productPriceCents + shippingPriceCents
   const taxCents = totalBeforeTaxCents * 0.1
