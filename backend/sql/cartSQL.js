@@ -38,7 +38,7 @@ async function addToCart(productId, quantity) {
     const cartItems = await getCart()
   
     cartItems.forEach((cartItem) => {
-      if (productId === cartItem['product_id']) {
+      if (productId === cartItem['productId']) {
         matchingItem = cartItem
       }
     })
