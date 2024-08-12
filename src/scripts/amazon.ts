@@ -109,7 +109,7 @@ function renderProductsGrid() {
   const addedMessageTimeouts = {}
   document.querySelectorAll('.js-add-to-cart')
     .forEach((button) : void => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async() => {
         const {productId} = (<HTMLButtonElement>button).dataset
         if (!productId) {
           return
@@ -123,7 +123,7 @@ function renderProductsGrid() {
 
         addMessage({addedMessage, productId, addedMessageTimeouts})
 
-        cart.addToCart(productId, quantity)
+        await cart.addToCart(productId, quantity)
 
         updateCartQuantity()
       })

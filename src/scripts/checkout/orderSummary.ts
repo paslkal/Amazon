@@ -127,12 +127,12 @@ export async function renderOrderSummary() {
 
   document.querySelectorAll('.js-delete-link')
     .forEach((link) => {
-      link.addEventListener('click', () => {
+      link.addEventListener('click', async () => {
         const { productId } = (<HTMLSpanElement>link).dataset;
         if (!productId) {
           return
         }
-        cart.removeFromCart(productId);
+        await cart.removeFromCart(productId);
         
         renderCheckoutHeader();
         renderOrderSummary()
@@ -158,13 +158,13 @@ export async function renderOrderSummary() {
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
       const input = <HTMLInputElement>container!.querySelector('.js-quantity-input');
 
-      const updateQuantity = () => {
+      const updateQuantity = async () => {
         const newQuantity = Number(input!.value);
         if (newQuantity<=0 || newQuantity >= 1000) {
           alert('Quantity must be at least 1 and less than 1000')
           return
         }
-        cart.updateCartQuantity(productId, newQuantity);
+        await cart.updateCartQuantity(productId, newQuantity);
         input!.value = '';
         renderCheckoutHeader();
         renderOrderSummary()

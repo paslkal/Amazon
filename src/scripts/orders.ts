@@ -99,12 +99,12 @@ async function renderOrders() {
   
   document.querySelectorAll('.js-buy-again-button')
     .forEach((button) => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async () => {
         const {productId} = (<HTMLButtonElement>button).dataset
         if (!productId) {
           return
         }
-        cart.addToCart(productId, 1)
+        await cart.addToCart(productId, 1)
         updateCartQuantity()
       })
     })
