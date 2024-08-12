@@ -15,9 +15,9 @@ async function calculateTotal(cart) {
 
   const totalBeforeTaxCents = productPriceCents + shippingPriceCents
   const taxCents = totalBeforeTaxCents * 0.1
-  const totalCents = totalBeforeTaxCents + taxCents
+  const totalCostCents = totalBeforeTaxCents + taxCents
   
-  return {totalBeforeTaxCents, taxCents, totalCents}
+  return totalCostCents
 }
 
 module.exports = {

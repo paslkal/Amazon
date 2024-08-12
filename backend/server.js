@@ -27,11 +27,11 @@ app.get('/products', async (req, res, next) => {
 app.post('/orders', async (req, res, next) => {
   const cart = req.body
   const products = getProductsForOrder(cart)
-  const {totalCents} = await calculateTotal(cart) 
+  const totalCostCents = await calculateTotal(cart) 
   const order = {
     id: uuidv4(),
     orderTime: dayjs(),
-    totalCents,
+    totalCostCents,
     products
   }
   await Cart.removeAllFromCart()
@@ -76,107 +76,3 @@ app.options('*', (req, res, next) => {
 app.listen(port, host, () => {
   console.log(`server running on http://${host}:${port}`)
 })
-
-// async function getProduct(productId) {
-//   let matchingProduct
-
-//   const products = await getProducts()
-
-//   products.forEach((product) => {
-//     if (product.id === productId) {
-//       matchingProduct = product
-//     }
-//   })
-
-//   return matchingProduct
-// }
-
-// function getProductsForOrder(cart) {
-//   const products = []
-//   cart.forEach((cartItem) => {
-//     const product = {
-//       estimatedDeliveryTime : calculateEstimatedDeliveryDate(
-//         getDeliveryOption(cartItem.deliveryOptionId)
-//       ),
-//       productId : cartItem.productId,
-//       quantity : cartItem.quantity,
-//       variation : null,  
-//     }
-//     products.push(product)
-//   })
-  
-//   return products
-// }
-// TODO: Переписать это, используя ts и webpack/vite
-// TODO: Или переписать это так, чтобы все это обробатовал backend и отправлял в фронт
-
-//!start
-// async function calculateTotal(cart) {
-//   let productPriceCents = 0
-//   let shippingPriceCents = 0
-
-//   for (const cartItem of cart) {
-//     const product = await getProduct(cartItem.productId)
-//     productPriceCents+= product.priceCents * cartItem.quantity
-
-//     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId)
-//     shippingPriceCents+=deliveryOption.priceCents
-//   }
-
-//   const totalBeforeTaxCents = productPriceCents + shippingPriceCents
-//   const taxCents = totalBeforeTaxCents * 0.1
-//   const totalCents = totalBeforeTaxCents + taxCents
-
-//   return totalCents
-// }
-
-// function isWeekend(date) {
-//   const dayOfWeek = date.format('dddd')
-//   return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday'
-// }
-
-// function calculateEstimatedDeliveryDate(deliveryOption) {
-//   let remainingDays = deliveryOption.deliveryDays
-//   let deliveryDate = dayjs()
-
-//   while (remainingDays > 0) {
-//     deliveryDate = deliveryDate.add(1, 'day')
-
-//     if (!isWeekend(deliveryDate)) {
-//       remainingDays--
-//     }
-//   }
-
-//   return deliveryDate
-// }
-
-// function getDeliveryOption(deliveryOptionId) {
-//   let deliveryOption = {
-//     id : 'someId',
-//     deliveryDays : -1,
-//     priceCents : -1
-//   }
-
-//   deliveryOptions.forEach((option) => {
-//     if (option.id === deliveryOptionId) {
-//       deliveryOption = option;
-//     }
-//   });
-
-//   return deliveryOption
-// }
-
-// const deliveryOptions = [{
-//   id: '1',
-//   deliveryDays: 7,
-//   priceCents: 0
-// }, {
-//   id: '2',
-//   deliveryDays: 3,
-//   priceCents: 499
-// }, {
-//   id: '3',
-//   deliveryDays: 1,
-//   priceCents: 999
-// }]
-//!end
