@@ -1,4 +1,5 @@
 const {pool} = require('./pool.js')
+const {convertToCamelCase} = require('./camelCase.js')
 
 async function getCart() {
   try {
@@ -6,7 +7,9 @@ async function getCart() {
       select * from cart  
     `)
  
-    return cart    
+    const camelCaseCart = convertToCamelCase(cart)
+
+    return camelCaseCart
   } catch (error) {
     console.log(error)
     return
