@@ -16,6 +16,21 @@ async function getCart() {
   }
 }
 
+async function calculateCartQuantity() {
+  try {
+    const [response] = await pool.query(`
+      select sum(quantity) as quantity from cart  
+    `)
+
+    const cartQauntity = (response[0])['quantity']
+
+    return cartQauntity
+  } catch (error) {
+    console.log(error)
+    return
+  }
+}
+
 async function addToCart(productId, quantity) {
   try {
     let matchingItem
@@ -93,6 +108,7 @@ async function removeAllFromCart() {
 
 module.exports = {
   getCart,
+  calculateCartQuantity,
   addToCart,
   removeFromCart,
   updateCartQuantity,

@@ -41,6 +41,11 @@ app.get('/cart', async (req, res, next) => {
   res.json(cart)
 })
 
+app.get('/cart/quantity', async (req, res, next) => {
+  const cartQuantity = await Cart.calculateCartQuantity()
+  res.send(cartQuantity)
+})
+
 // TODO: instead of cart send only product that have been added
 app.post('/cart', async (req, res, next) => {
   const {productId, quantity} = req.body

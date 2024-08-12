@@ -79,15 +79,16 @@ class Cart {
   
     async calculateCartQuantity() {
       try {
-        const response = await fetch(`http://${host}:${port}/cart`)
-        const cart = await response.json()
-        let cartQuantity = 0
+        const response = await fetch(`http://${host}:${port}/cart/quantity`)
+        const cartQuantityString = await response.text()
+        // const cart = await response.json()
+        // let cartQuantity = 0
       
-        cart.forEach((cartItem : CartItem) => {
-          cartQuantity += cartItem.quantity
-        })
+        // cart.forEach((cartItem : CartItem) => {
+        //   cartQuantity += cartItem.quantity
+        // })
       
-        const cartQuantityString = cartQuantity.toString()
+        // const cartQuantityString = cartQuantity.toString()
   
         return cartQuantityString        
       } catch (error) {
