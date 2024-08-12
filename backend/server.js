@@ -1,11 +1,12 @@
 const express = require('express')
 const app = express()
-const port = process.env.port || 1000
+const port = 1000
 const host = '127.0.0.1'
 const {v4 : uuidv4} = require('uuid')
 const dayjs = require('dayjs')
 const Cart = require('./sql/cartSQL.js')
 const {getProducts} = require('./sql/productsSQL.js')
+
 app.use('/', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -23,8 +24,7 @@ app.get('/products', async (req, res, next) => {
 })
 
 app.post('/orders', async (req, res, next) => {
-  const body = await getCart(req)
-  const cart = JSON.parse(body)
+  const cart = req.body
   const products = getProductsForOrder(cart)
   const order = {
     id: uuidv4(),
@@ -82,22 +82,6 @@ async function getProduct(productId) {
   })
 
   return matchingProduct
-}
-
-
-function getCart(req) {
-  let body = ''
-  return new Promise((resolve, reject) => {
-    try {
-      req.on('data', (chunk) => {
-        body += chunk
-      }).on('end', () => {
-        resolve(body)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  })
 }
 
 function getProductsForOrder(cart) {
