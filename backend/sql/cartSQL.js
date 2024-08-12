@@ -24,7 +24,7 @@ async function calculateCartQuantity() {
 
     const cartQauntity = (response[0])['quantity']
 
-    return cartQauntity
+    return cartQauntity || '0'
   } catch (error) {
     console.log(error)
     return
