@@ -1,11 +1,11 @@
-import { products, loadProductsFetch } from '../data/products';
-import { cart } from '../data/cart-class';
-import updateCartQuantity from '../scripts/utils/updateCartQuantity';
-import { addMessage } from '../scripts/amazon';
+import { products, loadProductsFetch } from '../../data/products';
+import { cart } from '../../data/cart-class';
+import updateCartQuantity from '../../scripts/utils/updateCartQuantity';
+import { addMessage } from '../../scripts/amazon';
 
 await loadProductsFetch()
 
-export function ProductsGrid() {
+export default function ProductsGrid() {
   return (
     <div className='main'>
       <div className="products-grid js-products-grid">
