@@ -8,7 +8,7 @@ import '../../styles-sass/pages/checkout/checkout.scss'
 
 // import '../data/backend-practice.js' 
 
-async function loadPage() {  
+export default async function loadPage() {  
   try {
     // throw 'error1'
 

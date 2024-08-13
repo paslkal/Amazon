@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'; 
-import Header from "./Header";
+import Header from "../Header";
 import ProductsGrid from './ProductsGrid';
 import '../../../styles-sass/shared/general.scss'
 import '../../../styles-sass/shared/amazon-header.scss'

@@ -52,29 +52,7 @@ export default function ProductsGrid() {
             <button
               className="add-to-cart-button js-add-to-cart button-primary"
               data-product-id={product.id}
-              onClick={async () => {
-                const selector = document.querySelector(
-                  `.js-quantity-selector-${product.id}`
-                ) as HTMLSelectElement
-
-                if (!selector) {
-                  return
-                }
-                const quantity = Number(selector.value)
-                
-                const addedMessage = document.querySelector(
-                  `.js-added-to-cart-${product.id}`
-                ) as HTMLDivElement
-                
-                const addedMessageTimeouts = {}
-        
-                addMessage({
-                  addedMessage, productId: product.id, addedMessageTimeouts
-                })      
-                
-                await cart.addToCart(product.id, quantity)
-                updateCartQuantity()
-              }}
+              onClick={() => handleAddToCart(product.id)}
             >
               Add to Cart
             </button>
@@ -83,4 +61,28 @@ export default function ProductsGrid() {
       </div>
     </div>
   );
+}
+
+const handleAddToCart = async (productId: string) => {
+  const selector = document.querySelector(
+    `.js-quantity-selector-${productId}`
+  ) as HTMLSelectElement
+
+  if (!selector) {
+    return
+  }
+  const quantity = Number(selector.value)
+  
+  const addedMessage = document.querySelector(
+    `.js-added-to-cart-${productId}`
+  ) as HTMLDivElement
+  
+  const addedMessageTimeouts = {}
+
+  addMessage({
+    addedMessage, productId: productId, addedMessageTimeouts
+  })      
+  
+  await cart.addToCart(productId, quantity)
+  updateCartQuantity()
 }
