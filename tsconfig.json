@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    
+    "jsx": "react-jsx",    
     "strict": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
@@ -31,6 +31,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src-react", "**/*.tsx"],
+  "exclude": ["node_modules", "src"]
 }

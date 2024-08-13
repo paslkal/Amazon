@@ -4,10 +4,10 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: {
-    amazon: ['./src/scripts/amazon.ts'],
-    checkout: ['./src/scripts/checkout.ts'],
-    orders: ['./src/scripts/orders.ts'],
-    tracking: ['./src/scripts/tracking.ts']
+    amazon: ['./src-react/react/Amazon.tsx'],
+    checkout: ['./src-react/scripts/checkout.ts'],
+    orders: ['./src-react/scripts/orders.ts'],
+    tracking: ['./src-react/scripts/tracking.ts']
   },
   module: {
     rules: [
@@ -39,7 +39,7 @@ module.exports = {
     port: 5500
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.jsx', '.tsx', '.ts', '.js'],
   },
   output: {
     filename: '[name].js',
