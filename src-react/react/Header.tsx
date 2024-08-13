@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
+import updateCartQuantity from '../scripts/utils/updateCartQuantity';
 import { changeUrl } from "../scripts/amazon";
 
 export default function Header() {
+  useEffect(() => {
+    updateCartQuantity()
+  }, [])
+  
   return (
     <div className="amazon-header">
       <div className="amazon-header-left-section">
