@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: {
-    amazon: ['./src-react/react/Amazon.tsx'],
+    amazon: ['./src-react/react/amazon/Amazon.tsx'],
     checkout: ['./src-react/scripts/checkout.ts'],
     orders: ['./src-react/scripts/orders.ts'],
     tracking: ['./src-react/scripts/tracking.ts']
