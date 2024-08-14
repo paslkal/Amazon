@@ -80,7 +80,7 @@ const handleAddToCart = async (productId: string) => {
   const addedMessageTimeouts = {}
 
   addMessage({
-    addedMessage, productId: productId, addedMessageTimeouts
+    addedMessage, productId, addedMessageTimeouts
   })      
   
   await cart.addToCart(productId, quantity)

@@ -136,6 +136,27 @@ export function loadProductsFetch() {
         return new Product(productDetails)
       })
 
+      const url = new URL(window.location.href)
+      const search = url.searchParams.get('search')
+    
+      if (search) {
+        const input = <HTMLInputElement>document.querySelector('.js-search-bar')
+        input!.setAttribute('value', search)
+        
+        const filteredProducts = products.filter((product) => {
+          const name = product.name.toLowerCase()
+          const {keywords} = product
+          for (const keyword of keywords) {
+            if (name.includes(search) || keyword.includes(search)) {
+              return product
+            }
+          }
+          return
+        })
+  
+        products.length = 0
+        products.push(...filteredProducts)
+      }
       console.log('load products from local server')
     }).catch((error) => {
       console.log('Unexpected error in loadProductsFetch.')
