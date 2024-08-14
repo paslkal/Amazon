@@ -1,13 +1,12 @@
-import ReactDOM from "react-dom/client";
 import Header from "../Header";
 import OrderSummary from "./OrderSummary";
 import PaymentSummary from "./PaymentSummary";
-import loadPage from "../../scripts/checkout";
+import { cart } from "../../data/cart-class";
+import { loadProductsFetch } from "../../data/products";
 import '../../../styles-sass/shared/general.scss'
 import '../../../styles-sass/pages/checkout/checkout-header.scss'
 import '../../../styles-sass/pages/checkout/checkout.scss'
-
-loadPage()
+import RenderPage from "../RenderPage";
 
 function Checkout() {
   return (
@@ -25,8 +24,17 @@ function Checkout() {
   )
 }
 
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(<Checkout/>);
+export default async function loadPage() {  
+  try {
+    await Promise.all([
+      loadProductsFetch(),
+      cart.loadCartFetch()
+    ])
+  
+  } catch (error) {
+    console.log('Unexpected error. Please try again later.')
+  }
 }
+
+RenderPage(<Checkout/>)
+
