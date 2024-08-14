@@ -1,6 +1,6 @@
-import Header from "../Header";
+import Header from "../shared/Header";
 import ProductsGrid from './ProductsGrid';
-import RenderPage from '../RenderPage';
+import RenderPage from '../shared/RenderPage';
 import '../../../styles-sass/shared/general.scss'
 import '../../../styles-sass/shared/amazon-header.scss'
 import '../../../styles-sass/pages/amazon.scss'

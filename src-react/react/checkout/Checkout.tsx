@@ -1,4 +1,4 @@
-import Header from "../Header";
+import Header from "../shared/Header";
 import OrderSummary from "./OrderSummary";
 import PaymentSummary from "./PaymentSummary";
 import { cart } from "../../data/cart-class";
@@ -6,7 +6,7 @@ import { loadProductsFetch } from "../../data/products";
 import '../../../styles-sass/shared/general.scss'
 import '../../../styles-sass/pages/checkout/checkout-header.scss'
 import '../../../styles-sass/pages/checkout/checkout.scss'
-import RenderPage from "../RenderPage";
+import RenderPage from "../shared/RenderPage";
 
 function Checkout() {
   return (
