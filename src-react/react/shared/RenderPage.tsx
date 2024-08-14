@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 
-function RenderPage(Page: JSX.Element) {
+export default function RenderPage(Page: JSX.Element) {
   const rootElement = document.getElementById('root');
   if (rootElement) {
     const root = ReactDOM.createRoot(rootElement);
@@ -8,4 +8,10 @@ function RenderPage(Page: JSX.Element) {
   }
 }
 
-export default RenderPage
+export function RenderComponentById(Page: JSX.Element, id: string) {
+  const element = document.getElementById(id);
+  if (element) {
+    const root = ReactDOM.createRoot(element);
+    root.render(Page);
+  }
+}

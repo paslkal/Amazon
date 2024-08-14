@@ -1,11 +1,12 @@
 // const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
   entry: {
     amazon: ['./src-react/react/amazon/Amazon.tsx'],
-    checkout: ['./src-react/scripts/checkout.ts'],
+    checkout: ['./src-react/react/checkout/Checkout.tsx'],
     orders: ['./src-react/scripts/orders.ts'],
     tracking: ['./src-react/scripts/tracking.ts']
   },
@@ -27,12 +28,12 @@ module.exports = {
       }
     ],
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     filename: "index.html",
-  //     template: path.resolve(__dirname, "amazon2.html")
-  //   })
-  // ],
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser',
+    }),
+  ],
   devServer: {
     static: path.join(__dirname, 'dist'),
     compress: true,
@@ -40,6 +41,14 @@ module.exports = {
   },
   resolve: {
     extensions: ['.jsx', '.tsx', '.ts', '.js'],
+    fallback: {
+      "path": require.resolve("path-browserify"),
+      "os": require.resolve("os-browserify/browser"),
+      "crypto": require.resolve("crypto-browserify"),
+      "stream": require.resolve("stream-browserify"),
+      "buffer": require.resolve("buffer/"),
+      "vm": require.resolve("vm-browserify"),
+    }
   },
   output: {
     filename: '[name].js',
