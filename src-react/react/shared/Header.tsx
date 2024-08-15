@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import updateCartQuantity from '../../scripts/utils/updateCartQuantity';
 import { changeUrl } from "../../scripts/amazon";
-import '../../../styles-sass/pages/checkout/checkout-header.scss'
+import '../../../styles-sass/shared/amazon-header.scss'
 
 export default function Header() {
   useEffect(() => {

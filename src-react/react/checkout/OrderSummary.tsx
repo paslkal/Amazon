@@ -89,7 +89,6 @@ export default function OrderSummary() {
                   </span>
                   <input
                     className="quantity-input js-quantity-input"
-                    defaultValue={cartItem.quantity}
                     onKeyDown={(event) => {
                       if (event.key === "Enter") {
                         const newQuantity = Number((event.target as HTMLInputElement).value);
@@ -118,7 +117,7 @@ export default function OrderSummary() {
               <div className="delivery-options">
                 <div className="delivery-options-title">Choose a delivery option:</div>
                 <DeliveryOptions {...deliveryOptionsProps}/>
-              </div>
+              </div>  
             </div>
           </div>
         );

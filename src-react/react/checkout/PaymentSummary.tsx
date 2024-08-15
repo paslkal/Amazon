@@ -32,9 +32,6 @@ export default function PaymentSummary() {
 
         const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId)
         shippingPriceCents += deliveryOption.priceCents
-        console.log(cartItem.deliveryOptionId)
-        console.log(deliveryOption.priceCents)
-        console.log(deliveryOption)
       }
 
       const totalBeforeTaxCents = productPriceCents + shippingPriceCents

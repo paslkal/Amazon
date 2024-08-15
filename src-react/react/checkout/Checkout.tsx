@@ -1,4 +1,4 @@
-import Header from "../shared/Header";
+import CheckoutHeader from "./CheckoutHeader";
 import OrderSummary from "./OrderSummary";
 import PaymentSummary from "./PaymentSummary";
 import RenderPage from "../shared/RenderPage";
@@ -15,7 +15,7 @@ function Checkout() {
 
   return (
     <>
-      <Header/>
+      <CheckoutHeader/>
       <div className="main">
         <div className="page-title">Review your order</div>
 
