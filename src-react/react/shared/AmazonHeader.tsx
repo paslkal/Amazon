@@ -3,7 +3,7 @@ import updateCartQuantity from '../../scripts/utils/updateCartQuantity';
 import { changeUrl } from "../../scripts/amazon";
 import '../../../styles-sass/shared/amazon-header.scss'
 
-export default function Header() {
+export default function AmazonHeader() {
   useEffect(() => {
     updateCartQuantity()
   }, [])
