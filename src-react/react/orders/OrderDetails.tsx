@@ -14,9 +14,13 @@ export default function OrderDetails({order} : {order: Order}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const promises = orderProducts.map((product) => getProduct(product.productId));
-      const awaitProductsDetails = await Promise.all(promises);
-      setProductsDetails(awaitProductsDetails);
+      try {
+        const promises = orderProducts.map((product) => getProduct(product.productId));
+        const awaitProductsDetails = await Promise.all(promises);
+        setProductsDetails(awaitProductsDetails);        
+      } catch (error) {
+        console.error(error)
+      }
     };
     
     fetchData();
@@ -35,9 +39,13 @@ export default function OrderDetails({order} : {order: Order}) {
       const name = productDetails.name
       
       const handleBuyAgain = async (productId : string) => {
-        if (!productId) return
-        await cart.addToCart(productId, 1)
-        updateCartQuantity()
+        try {
+          if (!productId) return
+          await cart.addToCart(productId, 1)
+          updateCartQuantity()          
+        } catch (error) {
+          console.error(error)
+        }
       }
 
       return (
