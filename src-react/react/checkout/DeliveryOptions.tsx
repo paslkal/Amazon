@@ -1,13 +1,6 @@
-import { Product } from "../../data/products";
-import { CartItem } from "../../data/cart-class";
 import { deliveryOptions, calculateDeliveryDate } from "../../data/deliveryOptions";
 import { formatCurrency } from "../../scripts/utils/money";
-
-interface DeliveryOptionsProps {
-  product: Product;
-  cartItem: CartItem;
-  handleDeliveryOptionChange: (productId: string, deliveryOptionId: string) => void;
-}
+import DeliveryOptionsProps from "./deliveryOptionsProps";
 
 export default function DeliveryOptions(props: DeliveryOptionsProps) {
   const { product, cartItem, handleDeliveryOptionChange } = props
