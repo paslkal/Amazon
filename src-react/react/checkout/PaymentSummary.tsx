@@ -4,12 +4,13 @@ import { getDeliveryOption } from "../../data/deliveryOptions"
 import { cart } from "../../data/cart-class"
 import { formatCurrency } from "../../scripts/utils/money"
 import { addOrder } from "../../data/orders"
+import CheckoutProps from "./checkoutProps"
 import getEnv from "../getEnv"
 
 const { port, host } = getEnv()
 
-export default function PaymentSummary() {
-  const [cartItems, setCartItems] = useState(cart.cartItems)
+export default function PaymentSummary(props: CheckoutProps) {
+  const {cartItems} = props
   const [cartQuantity, setCartQuantity] = useState('0')
   const [productPrice, setProductPrice] = useState(0)
   const [shippingPrice, setShippingPrice] = useState(0)
@@ -23,8 +24,6 @@ export default function PaymentSummary() {
       let shippingPriceCents = 0
 
       setCartQuantity(await cart.calculateCartQuantity()) 
-      await cart.loadCartFetch() 
-      setCartItems(cart.cartItems)
       
       for (const cartItem of cartItems) {
         const product = await getProduct(cartItem.productId)
@@ -47,7 +46,7 @@ export default function PaymentSummary() {
     }
 
     fetchData()
-  }, [])
+  }, [cartItems])
 
   const handlePlaceOrder = async() => {
     try {

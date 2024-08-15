@@ -13,15 +13,3 @@ export default function RenderPage(Page: React.ComponentType) {
     );
   }
 }
-
-export function RenderComponentById(Page: React.ComponentType, id: string) {
-  const element = document.getElementById(id);
-  if (element) {
-    const root = ReactDOM.createRoot(element);
-    root.render(
-      <StrictMode>
-        <Page/>
-      </StrictMode>
-    );
-  }
-}

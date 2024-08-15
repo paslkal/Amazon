@@ -3,14 +3,31 @@ import OrderSummary from "./OrderSummary";
 import PaymentSummary from "./PaymentSummary";
 import RenderPage from "../shared/RenderPage";
 import { cart } from "../../data/cart-class";
-import { loadProductsFetch } from "../../data/products";
+import { useEffect, useState } from "react";
+import { Product, getProduct, loadProductsFetch } from "../../data/products";
 import '../../../styles-sass/pages/checkout/checkout.scss'
-import { useEffect } from "react";
 
 function Checkout() {
+  const [cartItems, setCartItems] = useState(cart.cartItems);
+  const [products, setProducts] = useState<Product[]>([]);
+
   useEffect(() => {
-    loadPage()    
-  }, [])
+    loadPage()
+    const fetchProducts = async () => {
+      const productPromises = cartItems.map((cartItem) =>
+        getProduct(cartItem.productId)
+      );
+      const productsData = await Promise.all(productPromises);
+      setProducts(productsData);
+    };
+    fetchProducts();
+  }, [cartItems]);
+
+  const props = {
+    cartItems,
+    setCartItems,
+    products
+  }
 
   return (
     <>
@@ -19,8 +36,8 @@ function Checkout() {
         <div className="page-title">Review your order</div>
 
         <div className="checkout-grid">
-          <OrderSummary/>
-          <PaymentSummary/>
+          <OrderSummary {...props}/>
+          <PaymentSummary {...props}/>
         </div>
       </div>
     </>

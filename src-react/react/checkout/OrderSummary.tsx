@@ -1,30 +1,14 @@
-import { useEffect, useState } from "react";
 import { cart } from "../../data/cart-class";
-import { getProduct, Product } from "../../data/products";
 import { getDeliveryOption, calculateDeliveryDate } from "../../data/deliveryOptions";
-import { RenderComponentById } from "../shared/RenderPage";
-import PaymentSummary from "./PaymentSummary";
 import DeliveryOptions from "./DeliveryOptions";
+import CheckoutProps from "./checkoutProps";
 
-export default function OrderSummary() {  
-  const [cartItems, setCartItems] = useState(cart.cartItems);
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productPromises = cartItems.map((cartItem) =>
-        getProduct(cartItem.productId)
-      );
-      const productsData = await Promise.all(productPromises);
-      setProducts(productsData);
-    };
-    fetchProducts();
-  }, [cartItems]);
+export default function OrderSummary(props: CheckoutProps) {  
+  const {cartItems,setCartItems, products} = props
 
   const handleRemoveFromCart = async (productId: string) => {
     await cart.removeFromCart(productId);
     setCartItems([...cart.cartItems]); 
-    RenderComponentById(PaymentSummary, 'payment-summary')
   };
 
   const handleUpdateQuantity = async (productId: string, newQuantity: number) => {
@@ -34,13 +18,11 @@ export default function OrderSummary() {
     }
     await cart.updateCartQuantity(productId, newQuantity);
     setCartItems([...cart.cartItems]); 
-    RenderComponentById(PaymentSummary, 'payment-summary')
   };
 
   const handleDeliveryOptionChange = (productId: string, deliveryOptionId: string) => {
     cart.updateDeliveryOption(productId, deliveryOptionId);
     setCartItems([...cart.cartItems]); 
-    RenderComponentById(PaymentSummary, 'payment-summary')
   };
 
   return (
