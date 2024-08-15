@@ -15,8 +15,8 @@ function Orders() {
   return (
     <>
       <AmazonHeader/>
-      <div className="page-title">Your Orders</div>
         <div className="main">
+          <div className="page-title">Your Orders</div>
           <div className="orders-grid js-orders-grid">
             {
               orders.map((order) => {

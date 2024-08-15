@@ -8,7 +8,7 @@ export default function OrderHeader({order} : {order: Order}) {
   const {totalCostCents} = order
 
   return (
-    <>
+    <div className="order-header">
       <div className="order-header-left-section">
         <div className="order-date">
           <div className="order-header-label">Order Placed:</div>
@@ -24,6 +24,6 @@ export default function OrderHeader({order} : {order: Order}) {
         <div className="order-header-label">Order ID:</div>
         <div>{orderId}</div>
       </div>
-    </>
+    </div>
   )
 }

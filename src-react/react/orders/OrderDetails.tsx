@@ -49,7 +49,7 @@ export default function OrderDetails({order} : {order: Order}) {
       }
 
       return (
-        <div key={productId}>
+        <div className="order-details-grid" key={productId}>
           <div className="product-image-container">
             <img src={image}/>
           </div>
