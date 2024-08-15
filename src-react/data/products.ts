@@ -2,24 +2,10 @@ import { formatCurrency } from "../scripts/utils/money";
 const port : number = 1000
 const host : string = '127.0.0.1'
 
-export async function getProduct(productId : string) {
-  const exampleOfProduct = new Product({
-    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-    name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
-    rating: {
-      stars: 4.5,
-      count: 87
-    },
-    priceCents: 1090,
-    keywords: [
-      "socks",
-      "sports",
-      "apparel"
-    ]
-  })
 
-  let matchingProduct : Product = exampleOfProduct 
+
+export async function getProduct(productId : string) {
+  let matchingProduct : Product = exampleProduct 
 
   await loadProductsFetch()
 
@@ -66,19 +52,35 @@ export class Product {
     this.priceCents = productDetails.priceCents
     this.keywords = productDetails.keywords
   }
-
+  
   getStartsUrl() {
     return `images/ratings/rating-${this.rating.stars * 10}.png`
   }
-
+  
   getPrice() {
     return `$${formatCurrency(this.priceCents)}`
   }
-
+  
   extraInfoHTML() {
     return ''
   }
 }
+
+export const exampleProduct = new Product({
+  id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+  image: "images/products/athletic-cotton-socks-6-pairs.jpg",
+  name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
+  rating: {
+    stars: 4.5,
+    count: 87
+  },
+  priceCents: 1090,
+  keywords: [
+    "socks",
+    "sports",
+    "apparel"
+  ]
+})
 
 export class Clothing extends Product{
   type : string | undefined

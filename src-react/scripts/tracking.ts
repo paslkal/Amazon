@@ -1,18 +1,18 @@
-import {getProduct} from '../data/products'
+// import {getProduct} from '../data/products'
 import { orders } from '../data/orders'
 import dayjs from 'dayjs';  
-import updateCartQuantity from './utils/updateCartQuantity';
-import '../../styles-sass/shared/general.scss'
-import '../../styles-sass/shared/amazon-header.scss'
-import '../../styles-sass/pages/tracking.scss'
+// import updateCartQuantity from './utils/updateCartQuantity';
+// import '../../styles-sass/shared/general.scss'
+// import '../../styles-sass/shared/amazon-header.scss'
+// import '../../styles-sass/pages/tracking.scss'
 
-updateCartQuantity()
+// updateCartQuantity()
 
-function formatDate(date : dayjs.Dayjs | string) {
+export function formatDate(date : dayjs.Dayjs | string) {
   return dayjs(date).format('dddd, MMMM D') 
 }
 
-function findProductDetails(orderId : string, productId : string) {
+export function findProductDetails(orderId : string, productId : string) {
   const fakeProductDetails = {
     quantity: 1,
     orderTime: '2024-01-01',
@@ -39,7 +39,7 @@ function findProductDetails(orderId : string, productId : string) {
   return fakeProductDetails
 }
 
-function calculateProgress(orderTime : dayjs.Dayjs | string, deliveryTime : dayjs.Dayjs | string) {
+export function calculateProgress(orderTime : dayjs.Dayjs | string, deliveryTime : dayjs.Dayjs | string) {
   const newCurrentTime = dayjs().get('date')
   const newOrderTime = dayjs(orderTime).get('date')
   const newDeliveryTime = dayjs(deliveryTime).get('date')
@@ -59,7 +59,7 @@ function calculateProgress(orderTime : dayjs.Dayjs | string, deliveryTime : dayj
 
   return {percent, status}
 }
-
+/*
 async function renderTracking() {
   const url = new URL(window.location.href)
   const orderId = url.searchParams.get('orderId')
@@ -114,3 +114,4 @@ async function renderTracking() {
 }
 
 renderTracking()
+*/

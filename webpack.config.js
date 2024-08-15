@@ -8,7 +8,7 @@ module.exports = {
     amazon: ['./src-react/react/amazon/Amazon.tsx'],
     checkout: ['./src-react/react/checkout/Checkout.tsx'],
     orders: ['./src-react/react/orders/Orders.tsx'],
-    tracking: ['./src-react/scripts/tracking.ts']
+    tracking: ['./src-react/react/tracking/Tracking.tsx']
   },
   module: {
     rules: [

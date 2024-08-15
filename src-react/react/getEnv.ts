@@ -11,7 +11,9 @@ export default function getEnv() {
   
   if (!process.env['PORT'] || !process.env['HOST']) {
     console.warn(`
-      Warning: Environment variables for PORT = ${port} or HOST = ${host} are not set.
+      Warning: Environment variables 
+        for PORT = ${process.env['PORT']} or HOST = ${process.env['HOST']}
+          are not set.
       Default values will be used.  
     `);
   }
