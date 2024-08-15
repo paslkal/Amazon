@@ -11,12 +11,25 @@ export default function OrderSummary(props: CheckoutProps) {
     setCartItems([...cart.cartItems]); 
   };
 
-  const handleUpdateQuantity = async (productId: string, newQuantity: number) => {
+  const handleUpdateQuantity = async (productId: string) => {
+    const container = document.querySelector(`.js-cart-item-container-${productId}`);
+
+    const input = container!.querySelector('.js-quantity-input') as HTMLInputElement
+    
+    const newQuantity = Number(input!.value);
+
     if (newQuantity <= 0 || newQuantity >= 1000) {
       alert("Quantity must be at least 1 and less than 1000");
       return;
     }
+
+    
     await cart.updateCartQuantity(productId, newQuantity);
+    
+    input!.value = ''
+
+    container!.classList.remove('is-editing-quantity');
+
     setCartItems([...cart.cartItems]); 
   };
 
@@ -73,16 +86,14 @@ export default function OrderSummary(props: CheckoutProps) {
                     className="quantity-input js-quantity-input"
                     onKeyDown={(event) => {
                       if (event.key === "Enter") {
-                        const newQuantity = Number((event.target as HTMLInputElement).value);
-                        handleUpdateQuantity(product.id, newQuantity);
+                        handleUpdateQuantity(product.id);
                       }
                     }}
                   />
                   <span
                     className="save-quantity-link link-primary js-save-quantity-link"
                     onClick={() => {
-                      const input = document.querySelector(`.js-cart-item-container-${product.id} .js-quantity-input`) as HTMLInputElement;
-                      handleUpdateQuantity(product.id, Number(input.value));
+                      handleUpdateQuantity(product.id);
                     }}
                   >
                     Save

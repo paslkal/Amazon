@@ -31,7 +31,7 @@ function Checkout() {
 
   return (
     <>
-      <CheckoutHeader/>
+      <CheckoutHeader {...props}/>
       <div className="main">
         <div className="page-title">Review your order</div>
 

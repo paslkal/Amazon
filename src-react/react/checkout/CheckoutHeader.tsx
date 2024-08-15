@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../../../styles-sass/pages/checkout/checkout-header.scss'
 import { cart } from '../../data/cart-class';
+import CheckoutProps from './checkoutProps';
 
-export default function CheckoutHeader() {
+export default function CheckoutHeader(props: CheckoutProps) {
+  const {cartItems} = props
   const [cartQuantity, setCartQuantity] = useState('0')
   useEffect(() => {
       const fectchData = async () => {
@@ -11,7 +13,7 @@ export default function CheckoutHeader() {
       }
 
       fectchData()
-  }, [])
+  }, [cartItems])
   
   return (
     <div className="checkout-header">
