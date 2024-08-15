@@ -15,19 +15,24 @@ function Orders() {
   return (
     <>
       <AmazonHeader/>
-      {
-        orders.map((order) => {
-          const orderObject = {
-            order
+      <div className="page-title">Your Orders</div>
+        <div className="main">
+          <div className="orders-grid js-orders-grid">
+          {
+            orders.map((order) => {
+              const orderObject = {
+                order
+              }
+              return (
+                <div key={order.id}>
+                  <OrderHeader {...orderObject}/>
+                  <OrderDetails {...orderObject}/>        
+                </div>
+              )
+            })
           }
-          return (
-            <div key={order.id}>
-              <OrderHeader {...orderObject}/>
-              <OrderDetails {...orderObject}/>        
-            </div>
-          )
-        })
-      }
+          </div>
+        </div>
     </>
   )
 }
