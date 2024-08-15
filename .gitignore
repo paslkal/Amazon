@@ -3,3 +3,4 @@ dist/
 tests/
 backend/data/cart.json
 .vscode
+.env
