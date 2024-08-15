@@ -47,7 +47,7 @@ function Tracking() {
           </div>
 
           <div className="product-info">
-            Quantity: ${quantity}
+            Quantity: {quantity}
           </div>
 
           <img className="product-image" src={image}/>
