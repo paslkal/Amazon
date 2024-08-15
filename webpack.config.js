@@ -7,7 +7,7 @@ module.exports = {
   entry: {
     amazon: ['./src-react/react/amazon/Amazon.tsx'],
     checkout: ['./src-react/react/checkout/Checkout.tsx'],
-    orders: ['./src-react/scripts/orders.ts'],
+    orders: ['./src-react/react/orders/Orders.tsx'],
     tracking: ['./src-react/scripts/tracking.ts']
   },
   module: {

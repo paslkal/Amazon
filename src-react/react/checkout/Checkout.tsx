@@ -4,7 +4,6 @@ import PaymentSummary from "./PaymentSummary";
 import RenderPage from "../shared/RenderPage";
 import { cart } from "../../data/cart-class";
 import { loadProductsFetch } from "../../data/products";
-import '../../../styles-sass/shared/general.scss'
 import '../../../styles-sass/pages/checkout/checkout.scss'
 import { useEffect } from "react";
 
@@ -40,5 +39,5 @@ async function loadPage() {
   }
 }
 
-RenderPage(<Checkout/>)
+RenderPage(Checkout)
 

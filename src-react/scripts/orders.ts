@@ -1,5 +1,6 @@
-import { orders } from "../data/orders";
 import dayjs from 'dayjs';
+/*
+import { orders } from "../data/orders";
 import { formatCurrency } from "./utils/money";
 import { getProduct } from "../data/products";
 import { cart } from "../data/cart-class";
@@ -7,11 +8,11 @@ import updateCartQuantity from "./utils/updateCartQuantity";
 import '../../styles-sass/shared/general.scss'
 import '../../styles-sass/shared/amazon-header.scss'
 import '../../styles-sass/pages/orders.scss'
-
-function formatDate(date : dayjs.Dayjs | string) {
+*/
+export function formatDate(date : dayjs.Dayjs | string) {
   return dayjs(date).format('MMMM D')
 }
-
+/*
 async function renderOrders() {
   let html = ''
 
@@ -97,18 +98,19 @@ async function renderOrders() {
 
   document.querySelector('.js-orders-grid')!.innerHTML = html
   
-  document.querySelectorAll('.js-buy-again-button')
-    .forEach((button) => {
-      button.addEventListener('click', async () => {
-        const {productId} = (<HTMLButtonElement>button).dataset
-        if (!productId) {
-          return
-        }
-        await cart.addToCart(productId, 1)
-        updateCartQuantity()
-      })
+    document.querySelectorAll('.js-buy-again-button')
+      .forEach((button) => {
+        button.addEventListener('click', async () => {
+          const {productId} = (<HTMLButtonElement>button).dataset
+          if (!productId) {
+            return
+          }
+          await cart.addToCart(productId, 1)
+          updateCartQuantity()
+        })
     })
 }
 
 updateCartQuantity()
 renderOrders()
+*/

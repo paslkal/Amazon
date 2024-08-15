@@ -1,6 +1,6 @@
 export const orders : Order[] = JSON.parse(localStorage.getItem('orders')!) || []
 
-interface Order {
+export interface Order {
   id: string,
   orderTime: string,
   totalCostCents: number,

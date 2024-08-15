@@ -23,8 +23,8 @@ export default function OrderSummary() {
 
   const handleRemoveFromCart = async (productId: string) => {
     await cart.removeFromCart(productId);
-    setCartItems([...cart.cartItems]); // Update the cart items state
-    RenderComponentById(<PaymentSummary/>, 'payment-summary')
+    setCartItems([...cart.cartItems]); 
+    RenderComponentById(PaymentSummary, 'payment-summary')
   };
 
   const handleUpdateQuantity = async (productId: string, newQuantity: number) => {
@@ -33,14 +33,14 @@ export default function OrderSummary() {
       return;
     }
     await cart.updateCartQuantity(productId, newQuantity);
-    setCartItems([...cart.cartItems]); // Update the cart items state
-    RenderComponentById(<PaymentSummary/>, 'payment-summary')
+    setCartItems([...cart.cartItems]); 
+    RenderComponentById(PaymentSummary, 'payment-summary')
   };
 
   const handleDeliveryOptionChange = (productId: string, deliveryOptionId: string) => {
     cart.updateDeliveryOption(productId, deliveryOptionId);
-    setCartItems([...cart.cartItems]); // Update the cart items state
-    RenderComponentById(<PaymentSummary/>, 'payment-summary')
+    setCartItems([...cart.cartItems]); 
+    RenderComponentById(PaymentSummary, 'payment-summary')
   };
 
   return (
