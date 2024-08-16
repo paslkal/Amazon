@@ -19,13 +19,14 @@ export default function DeliveryOptions(props: DeliveryOptionsProps) {
             className={`delivery-option js-delivery-option js-delivery-option-${product.id}-${deliveryOption.id}`}
             data-product-id={product.id}
             data-delivery-option-id={deliveryOption.id}
+            onClick={() => handleDeliveryOptionChange(product.id, deliveryOption.id)}
           >
             <input
               type="radio"
               checked={isChecked}
               className={`delivery-option-input js-delivery-option-input-${product.id}-${deliveryOption.id}`}
               name={`delivery-option-${product.id}`}
-              onChange={() => handleDeliveryOptionChange(product.id, deliveryOption.id)}
+              onChange={() => {}}
             />
             <div>
               <div className="delivery-option-date">

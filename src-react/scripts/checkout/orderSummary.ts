@@ -182,12 +182,12 @@ export async function renderOrderSummary() {
 
   document.querySelectorAll('.js-delivery-option')
     .forEach((element) => {
-      element.addEventListener('click', () => {
+      element.addEventListener('click', async () => {
         const { productId, deliveryOptionId } = (<HTMLDivElement>element).dataset;
         if (!productId || !deliveryOptionId) {
           return
         }
-        cart.updateDeliveryOption(productId, deliveryOptionId);
+        await cart.updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
         renderPaymentSummary()
       });

@@ -33,8 +33,8 @@ export default function OrderSummary(props: CheckoutProps) {
     setCartItems([...cart.cartItems]); 
   };
 
-  const handleDeliveryOptionChange = (productId: string, deliveryOptionId: string) => {
-    cart.updateDeliveryOption(productId, deliveryOptionId);
+  const handleDeliveryOptionChange = async (productId: string, deliveryOptionId: string) => {
+    await cart.updateDeliveryOption(productId, deliveryOptionId);
     setCartItems([...cart.cartItems]); 
   };
 
