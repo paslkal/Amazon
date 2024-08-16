@@ -1,4 +1,14 @@
 # Copy of amazon.com
-Run `npm install` to install all necessary packages
-Create `cart.json` with empty array `[]`  in backend/data folder  
-Run `nodemon ./backend/server.js` to run local server
+Run `npm install` to install all necessary packages<br>
+Run `nodemon ./backend/server.js` to run local server<br>
+Create `.env` file in `./backend/sql` folder with environment variables like
+```
+MYSQL_HOST='127.0.0.1'
+MYSQL_PORT=5000
+MYSQL_USER='username'
+MYSQL_PASSWORD='password'
+MYSQL_DATABASE='amazon'
+```
+Create sql database using `./backend/sql/simple_schema.sql`<br>
+Then run `node ./backend/sql/loadSQL` to load data in mysql database<br> 
+Open amazon.html using extension "called Live Server"
