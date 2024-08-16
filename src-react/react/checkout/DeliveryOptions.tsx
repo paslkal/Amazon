@@ -26,7 +26,7 @@ export default function DeliveryOptions(props: DeliveryOptionsProps) {
               checked={isChecked}
               className={`delivery-option-input js-delivery-option-input-${product.id}-${deliveryOption.id}`}
               name={`delivery-option-${product.id}`}
-              onChange={() => {}}
+              readOnly={true}
             />
             <div>
               <div className="delivery-option-date">
