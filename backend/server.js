@@ -8,6 +8,8 @@ const Cart = require('./sql/cartSQL.js')
 const {getProducts} = require('./sql/productsSQL.js')
 const {calculateTotal} = require('./paymentSummary.js')
 const {getProductsForOrder} = require('./products.js')
+const {updateDeliveryOption} = require('./sql/deliveryOptionSQL.js')
+
 app.use('/', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -67,6 +69,20 @@ app.delete('/cart', async (req, res, next) => {
   const {productId} = req.body
   const cart = await Cart.removeFromCart(productId)
   res.json(cart)
+})
+
+app.put('/delivery-option', async (req, res, next) => {
+  try {
+    const {productId, deliveryOptionId} = req.body
+    const ids = ['1', '2', '3']
+    if (!ids.includes(deliveryOptionId)) {
+      throw Error(`There is no delivery_option_id = ${deliveryOptionId}`)
+    }
+    const cart = await updateDeliveryOption(productId, deliveryOptionId)  
+    res.json(cart)    
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 app.options('*', (req, res, next) => {

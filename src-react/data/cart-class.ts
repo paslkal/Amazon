@@ -1,6 +1,5 @@
-import { getDeliveryOption } from "./deliveryOptions"
-const port : number = 1000
-const host : string = '127.0.0.1'
+import getEnv from "../react/getEnv"
+const {port, host} = getEnv()
 
 export interface CartItem {
   productId : string,
@@ -38,22 +37,14 @@ class Cart {
     }]
   }
 
-    updateDeliveryOption(productId : string, deliveryOptionId : string) {
-      let matchingItem : CartItem | undefined
-    
-      this.cartItems.forEach((cartItem) => {
-        if (productId === cartItem.productId) {
-          matchingItem = cartItem
-        }
+    async updateDeliveryOption(productId : string, deliveryOptionId : string) {
+      await fetch(`http://${host}:${port}/delivery-option`, {
+        method: 'PUT',
+        body: JSON.stringify({productId, deliveryOptionId}),
+        headers: {"Content-Type":"application/json"}
       })
 
-      if (!matchingItem || !getDeliveryOption(deliveryOptionId)) {
-        return
-      }
-    
-      matchingItem.deliveryOptionId = deliveryOptionId
-    
-      this.saveToStorage()
+      await this.loadCartFetch()
     }
   
     async updateCartQuantity(productId : string, quantity : number) {
